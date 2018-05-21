@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-5">
+    <form class="form-inline">
+      Filter by:
+      <div class="input-group col-4 select">
+        <srp-dropdown [options]="filterByOptions" [(model)]="options.filterByType"
+                      (modelChange)="setFilterQueryOptions()"></srp-dropdown>
+        <div class="select__arrow"></div>
+      </div>
+      <div class="input-group col-4 select">
+        <srp-dropdown [options]="filterByQueryOptions" [(model)]="options.filterByQuery"
+                      (modelChange)="updateFilterByQuery()"></srp-dropdown>
+        <div class="select__arrow"></div>
+      </div>
+      <a class="btn btn-primary btn-clear" href="javascript:;" (click)="clearFilter()">Clear Filter</a>
+    </form>
+  </div>
+  <div class="col-2 offset-md-1">
+    <form class="form-inline">
+      View By:
+      <div class="input-group col-6 select">
+        <srp-dropdown [options]="viewByOptions" [(model)]="options.viewType"
+                      (modelChange)="updateViewType()"></srp-dropdown>
+        <div class="select__arrow"></div>
+      </div>
+    </form>
+  </div>
+  <div class="col-2">
+    <form class="form-inline">
+      Sort By:
+      <div class="input-group col-8 select" style="margin-left: 0px !important;">
+        <srp-dropdown [options]="sortByOptions" [(model)]="options.sortBy"
+                      (modelChange)="updateSortBy()"></srp-dropdown>
+        <div class="select__arrow"></div>
+      </div>
+    </form>
+  </div>
+  <div class="col-2 text-right">
+    <a class="btn btn-primary" href="javascript:;" (click)="openAdvancedFilter()">Advanced
+      Filter</a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <kanban-board [cards]="cards"
+                  [viewType]="options.viewType"
+                  [filterByType]="options.filterByType"
+                  [filterByQuery]="options.filterByQuery"
+                  [sortBy]="options.sortBy"
+                  [enableContextMenu]="options.enableContextMenu">
+    </kanban-board>
+  </div>
+</div>
+
+<ng-template #advancedFilterModal let-close="close" let-dismiss="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Advanced Filter</h4>
+  </div>
+  <div class="modal-body">
+    <p>
+      <ng-container *ngIf="options.viewType !== 'grid'">
+        <div class="control-group">
+          <h6>Show Columns</h6>
+          <label class="control success control--checkbox" *ngFor="let column of getColumnsForViewType()">{{column.name}}
+            <input type="checkbox" [(ngModel)]="column.visible"
+                   (change)="updateColumnVisibility(column.name,column.visible)"/>
+            <div class="control__indicator"></div>
+          </label>
+          <h6>Miscellaneous</h6>
+          <label class="control success control--checkbox">Enable Right-Click Menu
+            <input type="checkbox" [(ngModel)]="options.enableContextMenu"
+                   (change)="updateContextMenuStatus()"/>
+            <div class="control__indicator"></div>
+          </label>
+        </div>
+      </ng-container>
+    </p>
+  </div>
+  <div class="modal-footer clearfix">
+    <button type="button" class="btn btn-success btn-sm" (click)="close()">Close</button>
+  </div>
+</ng-template>

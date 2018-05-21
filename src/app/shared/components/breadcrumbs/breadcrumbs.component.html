@@ -1,0 +1,8 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li *ngFor="let breadcrumb of breadcrumbs; let last = last" class="breadcrumb-item">
+      <a *ngIf="breadcrumb.path && !last" (click)="goToBreadcrumb(breadcrumb.path)" class="srp_active-link">{{breadcrumb.text}}</a>
+      <span *ngIf="!breadcrumb.path || last" class="srp_breadcrumb-current-link">{{ breadcrumb.text}}</span>
+    </li>
+  </ol>
+</nav>

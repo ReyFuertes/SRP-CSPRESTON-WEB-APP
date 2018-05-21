@@ -1,0 +1,120 @@
+<app-view-jobs *ngIf="listOfJobs"></app-view-jobs>
+<app-job-timecards *ngIf="showTimeCardsList" [job]="job"></app-job-timecards>
+
+<ibox-panel [breadcrumbs]="breadcrumbs" *ngIf="!listOfJobs && !showTimeCardsList && !showEstimateForm">
+  <ng-container class="heading">
+    Job ID: {{ job.job_number }}
+  </ng-container>
+
+  <ng-container class="heading-aside">
+    <div class="actions text-right">
+      <button type="submit" class="btn btn-primary" (click)="getJobs()">Back</button>
+    </div>
+  </ng-container>
+
+  <ng-container class="body">
+
+    <div *ngIf="show" class="job-display">
+      <p class="alert alert-info" *ngIf="message">{{message}}</p>
+      <div class="row">
+
+        <div class="display-container">
+
+          <div class="top">
+            <div class="address">
+                <h3>Address</h3>
+
+                <div class="address-details">
+                  <p class="job-address">{{ job.address }}</p>
+                  <p class="job-address">{{ job.city }}</p>
+                  <p class="job-address">{{ job.state }}, {{ job.zip }}</p>
+
+                  <p  class="job-address" style="margin: 10px 0 0 !important;">Contact: <span>{{ job.customer.name }}</span></p>
+                  <p class="job-address">Company: <span>{{ job.customer.company }}</span></p>
+
+                  <p class="job-address">Email: <span>{{ (job.email !== null && job.email.length == 0) ? 'No Email' : job.email }}</span></p>
+                  <p class="job-address">Phone #: <span>{{ (job.phone !== null && job.phone.length == 0) ? 'No Phone' :  job.phone }}</span></p>
+                </div>
+            </div>
+
+            <div class="display">
+                <h3>Job Display</h3>
+
+                <div class="display-details">
+                  <div style="margin: 10px 0 0 !important;" class="detail"><p class="text">Status: </p><span>{{ job.status.name }}</span></div>
+
+                  <div class="detail"><p class="text">Job ID: </p><span>{{ job.job_number }}</span></div>
+
+                  <div class="detail"><p class="text">Open Date: </p><span>{{ job.date_approved }}</span></div>
+
+                  <div class="detail"><p class="text">Job Type: </p><span>{{ job.type.name }}</span></div>
+
+                  <div class="detail"><p class="text">Last Update: </p><span>{{ job.date_approved }}</span></div>
+
+                  <div class="detail"><p class="text">Damage Type: </p><span>{{ job.damage_type.name }}</span></div>
+
+                  <div class="detail"><p class="text">Year Built: </p><span>{{ job.year_built }}</span></div>
+
+                </div>
+            </div>
+
+            <div class="financial">
+                <h3>Financial</h3>
+
+                 <div class="financial-details">
+                  <p style="margin: 10px 0 0 !important;">Estimate: <span>${{ job.financial !== null ? job.financial.estimate_amount : 0 }}</span></p>
+
+                  <p>Budget: <span>${{ job.financial !== null ? job.financial.budget_amount : 0 }}</span></p>
+
+                  <p>Cost to Date: <span>${{ job.financial !== null ? job.financial.cost_to_date : 0 }}</span></p>
+
+                  <p>Running Margin: <span>{{ job.financial !== null ? job.financial.running_margin : 0 }}%</span></p>
+
+                  <p>Total Invoiced: <span>${{ job.financial !== null ? job.financial.total_invoiced : 0 }}</span></p>
+
+                  <p>Retainage: <span>${{ job.financial !== null ? job.financial.retainage : 0 }}</span></p>
+
+                  <p>Total Received: <span>${{ job.financial !== null ? job.financial.total_applied : 0 }}</span></p>
+
+                  <p>Balance Due: <span>${{ job.financial !== null ? job.financial.balance_due : 0 }}</span></p>
+
+                </div>
+            </div>
+
+            <div class="buttons">
+                <h3>Actions</h3>
+
+                <div class="button-details">
+                  <button class="btn btn-sm btn-success" (click)="showCreateEstimateForm(job)">Add Estimate</button>
+                  <button class="btn btn-sm btn-success" (click)="showTimeCards(job)">Timecards</button>
+                  <button class="btn btn-sm btn-success">Vendor Invoices</button>
+                  <button class="btn btn-sm btn-success">Templates</button>
+                  <button class="btn btn-sm btn-success">Email / Print</button>
+                  <button class="btn btn-sm btn-success">Export Job to Excel</button>
+                </div>
+            </div>
+          </div>
+
+          <div class="bottom">
+            <div class="notes">
+                <h3>Notes</h3>
+            </div>
+
+            <div class="contacts">
+                <h3>Contacts</h3>
+
+                <div class="contacts-details" *ngFor="let employee of jobEmployees">
+                  <p>{{ employee.role }}: <span>{{ employee.contact.name }}</span></p>
+                </div>
+            </div>
+
+            <div class="wb">
+                <h3>Whiteboard</h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ibox-panel>

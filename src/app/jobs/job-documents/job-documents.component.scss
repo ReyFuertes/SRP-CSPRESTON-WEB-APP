@@ -1,0 +1,104 @@
+.job-id-container {
+  font-size: 0.8571rem;
+  margin-top: 6px;
+}
+
+.job-documents {
+    height: 100vh;
+
+	h2 {
+		margin: 0 auto !important;
+		display: block;
+
+		.id {
+		    font-size: 14px;
+    		margin-top: 10px;
+		}
+  }
+
+
+
+	.documents-container {
+		display: block;
+		width: 100%;
+		padding: 0 10px;
+	}
+
+	.header {
+		select {
+			width: 10%;
+			display: inline-block;
+		}
+
+		.actions {
+		    width: 85%;
+		    display: inline-block;
+		    text-align: right;
+		}
+	}
+
+	.documents {
+		margin-top: 20px;
+		overflow: auto;
+		height: 100%;
+		text-align: center;
+
+		i.fa {
+			font-size: 120px;
+		}
+
+		.selected-document {
+		    width: 40%;
+   			height: 90%;
+		    float: left;
+		    border-right: 1px solid #eee;
+		}
+		.selected-document i.fa {
+			font-size: 300px;
+		}
+
+		.other-documents {
+			width: 60%;
+    		float: right;
+
+			.sub-doc {
+			    width: 30% !important;
+   			 	min-height: 250px;
+			    display: inline-block;
+			    cursor: pointer;
+			    margin-right: 1.5rem;
+			    float: left;
+			    list-style-type: none;
+			    margin-bottom: 1.5rem;
+			}
+
+			.sub-doc .document-description {
+				padding: 10px 0;
+			}
+
+			.sub-doc .document-description i.fa {
+				font-size: 20px;
+				margin-left: 5px;
+			}
+
+			.sub-doc .document-thumbnail {
+				height: 250px;
+			}
+
+			.sub-doc:hover, .sub-doc.selected {
+				background-color: #eeeeee8f;
+			}
+
+			.document-thumbnail img {
+				max-height: 100%;
+				max-width: 100%
+			}
+
+			.document-thumbnail i {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+	}
+}

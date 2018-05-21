@@ -1,0 +1,62 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+    <ng-container class="heading">List of Employees</ng-container>
+    <ng-container class="heading-aside">
+        <button (click)="onAddEmployee()" class="btn btn-success btn-add pull-right">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add Employee</button>
+    </ng-container>
+    <ng-container class="body">
+        <hr />
+        <div class="row">
+            <div class="col-1">
+                <label for="" class="p-2">Filter By:</label>
+            </div>
+            <div class="col-3 select contacts-filter-holder">
+
+                <select class="form-control" [(ngModel)]="typeOption" (change)="onTypeChanged()">
+                    <option value="0">Roles</option>
+                    <option *ngFor="let cr of employeeRoles" [value]="cr.id">{{cr.name}}</option>
+                </select>
+                <div class="select__arrow"></div>
+            </div>
+            <div class="col-5">&nbsp;</div>
+            <div class="col-3">
+                <input class="form-control contact-search-field" type='text' placeholder='Search for employees...' (keyup)='searchEmployees($event)'
+                />
+            </div>
+        </div>
+        <br />
+
+        <p-table [columns]="cols" [value]="employees">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th [ngClass]="col.field === '' ? 'action-column normal-font text-center' : 'normal-font text-center'"
+                        *ngFor="let col of columns"
+                        [pSortableColumn]="col.field"
+                        [style.width]="col.width">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="col.field !== ''" [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-employee>
+                <tr class="normal-font">
+                    <td>{{ employee.first_name + ' ' + employee.last_name }}</td>
+                    <td class="text-center">{{ employee.access_level | titlecase }}</td>
+                    <td class="text-center">{{ employee.office }}</td>
+                    <td class="text-center">
+                        <div *ngFor="let phone of employee.phones">
+                            {{ phone.number }}
+                        </div>
+                    </td>
+                    <td>
+                        <button (click)="onEditEmployee(employee)" type="button" class="btn btn-sm btn-primary">
+                            <i class="fa fa-pencil"></i> Edit</button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-paginator [rows]="limit" [totalRecords]="totalEmployees" (onPageChange)="listEmployees($event)"></p-paginator>
+
+    </ng-container>
+</ibox-panel>

@@ -1,0 +1,25 @@
+.input-group .form-control {
+  width: 100%;
+}
+
+.dropdown-menu {
+  min-width: 100%;
+  font-size: 14px;
+  overflow-x: auto;
+  max-height: 250px;
+  min-height: 150px;
+
+  a.dropdown-item {
+    padding: 4px 10px;
+  }
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #0069aa;
+  color: #FFF;
+}
+
+.selector-error input {
+  border: thin red solid;
+}

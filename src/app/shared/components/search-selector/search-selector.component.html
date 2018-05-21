@@ -1,0 +1,8 @@
+<div [formGroup]="selectorFormGroup" class="dropdown input-group" [class.selector-error]="getErrorState()" [ngClass]="{'show': isShow}">
+  <input type="text" class="form-control" formControlName="selectorName" [(ngModel)]="selectedItem" [placeholder]="placeholder" (blur)="onBlur($event)" (keyup)="onDropdownKeyupInput($event)" name="customerSearch">
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <li *ngFor="let item of filteredSearchList">
+      <a (click)="onSelectItem(item)" href="javascript:void(0);" class="dropdown-item" >{{ item.name }}</a>
+    </li>
+  </ul>
+</div>

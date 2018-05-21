@@ -1,0 +1,40 @@
+<div class="totals">
+    <section>
+        <div class="card">
+            <div class="card-header">
+                Job Totals
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-6 col-xl-5 text-muted mb-3">Estimate</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.estimate_amount | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Budget</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.budget_amount | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Cost To Date</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.cost_to_date | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Running Margin</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.running_margin | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Total Invoiced</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.total_invoiced | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Total Received</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.total_applied | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Balance Due</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.balance_due | currency:"$" }}</div>
+
+                    <div class="col-6 col-xl-5 text-muted mb-3">Retainage</div>
+                    <div class="col-6 col-xl-7 mb-3">{{ job.retainage | currency:"$" }}</div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+</div>

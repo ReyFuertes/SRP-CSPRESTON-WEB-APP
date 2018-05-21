@@ -1,0 +1,387 @@
+@import "scss/mixins/material-palette";
+@import "scss/mixins/skinning";
+@import "scss/variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/primeng/resources/primeng.min.css";
+@import "../../../node_modules/font-awesome/scss/font-awesome";
+@import "../../../node_modules/sweetalert2/dist/sweetalert2.css";
+@import "scss/theming";
+@import "scss/custom-bootstrap";
+@import "scss/core";
+@import "scss/custom";
+@import "css/perfect-scrollbar.css";
+@import "css/style.css";
+@import "scss/_app.scss";
+@import "scss/_jobs.scss";
+@import "scss/_employees.scss";
+@import "scss/_timecards.scss";
+@import "scss/_estimates.scss";
+
+body,
+html {
+  overflow: auto;
+  height: auto;
+  background: #eee;
+}
+
+::-moz-selection {
+  background: #337ab7;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+::selection {
+  background: #337ab7;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: none!important;
+  outline: 0!important;
+}
+
+.select2 {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100% !important;
+  margin-bottom: 0;
+  display: table !important;
+  table-layout: fixed;
+}
+
+.ng-sidebar {
+  // width: 12rem !important;
+  .navbar {
+    min-height: 2.5rem !important;
+
+    .navbar-brand {
+      height: 100%;
+      margin: 0 auto;
+      padding: .2rem 0 !important;
+
+      span {
+        vertical-align: middle;
+      }
+    }
+
+    .navbar-nav {
+      height: 100% !important;
+    }
+  }
+}
+
+.main-content {
+  .tab-row {
+    height: 2.3rem;
+
+    .col {
+      height: 100%;
+
+      .srp-tabs {
+        height: 100%;
+
+        ul {
+          height: 100%;
+
+          li {
+            font-size: 10px;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.main-footer {
+  display: none;
+  visibility: hidden;
+}
+
+#create-contact-form,
+#create-timecard-form {
+  table {
+    .ui-datepicker {
+      width: auto;
+    }
+
+    .ui-datepicker-calendar {
+      td {
+        border: 0;
+        padding: .125em !important;
+      }
+    }
+  }
+
+  .checkbox,
+  p-calendar {
+    input {
+      height: 100%;
+    }
+  }
+}
+
+.form-invoice {
+  p-calendar {
+    max-width: 100%;
+  }
+}
+
+/**
+ * Globals
+ */
+
+h2 {
+  font-size: 1.2rem !important;
+}
+
+.tabset {
+  font-size: .75rem;
+
+  .tab-content {
+    height: 100vh !important;
+  }
+}
+
+.ui-calendar {
+  width: 100%;
+}
+
+.ui-datepicker {
+  width: auto !important;
+}
+
+.group-reason-hour {
+  overflow: auto;
+
+  .reason {
+    padding: 0;
+    float: left;
+  }
+
+  .hours {
+    paddinbg: 0;
+    float: right;
+  }
+}
+
+#newItem {
+  .select2 {
+    .select2-selection {
+      .select2-selection--single,
+      .select2-selection__rendered {
+        font-size: 1rem !important;
+      }
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h4 {
+  font-size: 17px;
+}
+
+
+h5 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+a.srp_active-link {
+  color: #007bff !important;
+}
+
+.srp_font-w-300 {
+  font-weight: 300;
+}
+
+.srp_card {
+  background: #fdfbfb;
+  border-radius: 2px;
+  display: inline-block;
+  position: relative;
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  overflow: auto;
+  width: 100%;
+  min-height: calc(100vh - 95px);
+}
+
+.ng-sidebar .menu {
+  margin-top: 10px;
+
+  ul > a {
+    font-size: 13px;
+    font-weight: 400;
+  }
+}
+
+.srp_margin-top-10 {
+  margin-top: 10px;
+}
+
+hr {
+  clear: both;
+}
+
+.theme-light .ngx-datatable {
+  background: #fdfbfb;
+}
+
+.contacts-filter-holder {
+  margin-left: -20px;
+}
+
+.input-group-addon {
+  height: 100% !important;
+}
+
+/**
+ * Job file upload css
+ */
+
+.ui-fileupload {
+  width: 100%;
+
+  button[ng-reflect-label="Cancel"] {
+    display: none !important;
+  }
+
+  .ui-fileupload-content {
+    .ui-fileupload-files {
+      display: block;
+
+      .ui-fileupload-row {
+        width: 100%;
+        margin-top: 10px;
+        display: block;
+
+        div:nth-of-type(2) {
+          display: block;
+          padding: 0 !important;
+        }
+
+        div:nth-of-type(3),
+        div:nth-of-type(4) {
+          display: inline-block;
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.ui-growl-message {
+  p {
+    font-size: 14px;
+  }
+}
+
+.contact-search-field {
+  margin-left: 22px;
+}
+
+.action-column {
+  width: 80px;
+}
+
+.btn-group > .btn:hover,
+.btn-group-vertical > .btn:hover {
+  z-index: inherit;
+}
+
+.ui-dialog-titlebar {
+  background: #0069aa !important;
+  color: #FFF !important;
+
+  .fa-close {
+    color: #FFF !important;
+  }
+}
+
+.ui-dialog .ui-dialog-content {
+  overflow: inherit;
+}
+
+.ui-datatable .ui-datatable-data > tr > td,
+.ui-datatable .ui-datatable-tfoot > tr > td,
+.ui-datatable .ui-datatable-thead > tr > th {
+  word-wrap: break-word !important;
+}
+
+.select2,
+.select2-results,
+.select2-search__field {
+  font-size: .8571rem;
+  color: #676a6c !important;
+}
+
+.select2-search__field {
+  border-radius: 0;
+  background-image: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.select2-dropdown {
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: 0 !important;
+}
+
+.select2-container--default .select2-selection--single {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: 0 !important;
+}
+
+.ui-widget-content {
+  color: #676a6c !important;
+}
+
+.ui-inputtext {
+  color: #676a6c !important;
+}
+
+.normal-font {
+    color: #676a6c !important;
+    font-weight: normal !important;
+}
+
+.input-error input {
+  border: thin red solid !important;
+}
+
+.ui-growl-title {
+  font-weight: 200 !important;
+}

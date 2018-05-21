@@ -1,0 +1,79 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+    <ng-container class="heading">List of Contacts</ng-container>
+    <ng-container class="heading-aside">
+        <button (click)="onAddContact()" class="btn btn-success btn-add pull-right">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add Contact</button>
+    </ng-container>
+    <ng-container class="body">
+        <div class="row">
+        <div class="col-12">
+
+            <hr />
+            <div class="row">
+                <div class="col-1"><label for="" class="p-2">Filter By:</label></div>
+                <div class="col-3 select contacts-filter-holder">
+
+                    <select class="form-control" [(ngModel)]="typeOption" (change)="onTypeChanged()">
+                    <option value="0">Contact Type</option>
+                    <option *ngFor="let cr of contactRoles" [value]="cr.id">{{cr.name}}</option>
+                    </select>
+                    <div class="select__arrow"></div>
+                </div>
+                <div class="col-5">&nbsp;</div>
+                <div class="col-3">
+                    <input class="form-control contact-search-field" type='text' placeholder='Search for contacts...' (keyup)='searchContacts($event)' />
+                </div>
+            </div>
+            <br />
+
+            <div class="box" *ngIf="loading">
+                <br />
+                <p class="alert alert-info"> Loading contacts ... </p>
+            </div>
+
+            <div *ngIf="!loading">
+            <div class="contact-list">
+                <p-table [columns]="cols" [value]="contacts">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th [ngClass]="col.field === '' ? 'action-column normal-font' : 'normal-font'"
+                                *ngFor="let col of columns"
+                                [pSortableColumn]="col.field"
+                                class="text-center"
+                                [style.width]="col.width">
+                                {{col.header}}
+                                <p-sortIcon *ngIf="col.sort" [field]="col.field"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-contact>
+                        <tr class="normal-font">
+                            <td>{{ contact.name }}</td>
+                            <td class="text-center">{{ contactTypeLabel(contact.type_id) }}</td>
+                            <td>{{ contact.company }}</td>
+                            <td class="text-center">
+                                <div *ngFor="let email of contact.emails">
+                                    {{ email.email }}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div *ngFor="let phone of contact.phones">
+                                    {{ phone.number }}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <button (click)="onEditContact(contact)" type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa-pencil"></i> Edit</button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-paginator [rows]="limit" [totalRecords]="totalContacts" (onPageChange)="listContacts($event)"></p-paginator>
+
+            </div>
+            </div>
+        </div>
+        </div>
+    </ng-container>
+</ibox-panel>

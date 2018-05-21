@@ -1,0 +1,5 @@
+<address *ngFor="let address of addresses">
+    <strong *ngIf="showType">{{ address.type }}</strong>
+    <br *ngIf="showType"> {{ address.address }}
+    <br> {{ address.city }}, {{ address.state }} {{ address.zip }}
+</address>

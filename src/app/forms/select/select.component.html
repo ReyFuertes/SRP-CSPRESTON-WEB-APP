@@ -1,0 +1,4 @@
+<select [disabled]="disabled" [(ngModel)]="modelV">
+  <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
+  <option *ngIf="!options || options.length <= 0">{{notAvailableText || 'Not Available'}}</option>
+</select>

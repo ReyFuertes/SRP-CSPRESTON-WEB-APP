@@ -1,0 +1,31 @@
+<app-notifications></app-notifications>
+
+<div class="d-flex align-items-stretch min-height-100 h-100">
+  <div class="bg-cover bg-0 hidden-sm-down col-md-5 col-lg-7"></div>
+  <div class="card card-block mb-0 rounded-0 p-5 col-sm-12 col-md-7 col-lg-5">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="login-form">
+      <div class="mb-3 header">
+        <img src="assets/images/logo-full.png" class="avatar-xlg mb-4" alt="">
+        <p class="ff-headers text-uppercase text-center">Sign in to your account</p>
+      </div>
+      <fieldset class="form-group" [ngClass]="{'has-danger': (form.controls['email'].hasError('required') || form.controls['email'].hasError('email')) && form.controls['email'].touched}">
+        <label for="email" class="form-control-label">
+          Enter your email address
+        </label>
+        <input name="email" type="text" class="form-control" placeholder="Email address" [formControl]="form.controls['email']" [ngClass]="{'form-control-danger': (form.controls['email'].hasError('required') || form.controls['email'].hasError('email')) && form.controls['email'].touched}" />
+        <div class="form-control-feedback" *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">Email address is required.</div>
+        <div class="form-control-feedback" *ngIf="form.controls['email'].hasError('email') && form.controls['email'].touched">Must be a valid email address.</div>
+      </fieldset>
+      <fieldset class="form-group field-password" [ngClass]="{'has-danger': form.controls['password'].hasError('required') && form.controls['password'].touched}">
+        <label for="password" class="form-control-label">
+          Enter your password
+        </label>
+        <input name="password" type="password" class="form-control" placeholder="********" [formControl]="form.controls['password']" [ngClass]="{'form-control-danger': form.controls['password'].hasError('required') && form.controls['password'].touched}"/>
+        <div class="form-control-feedback" *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">Password is required.</div>
+        <a [routerLink]="['/forgot']" class="form-text"><small>Recover password</small></a>
+      </fieldset>
+      <div class="block"></div>
+      <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Login</button>
+    </form>
+  </div>
+</div>

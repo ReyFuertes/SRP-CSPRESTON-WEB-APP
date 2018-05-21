@@ -1,0 +1,450 @@
+.hr {
+  border-color: #eee;
+}
+
+.jobs-box-holder {
+  .search-and-add-customer-btn-holder {
+    .autosearch {
+      width: 94.5%;
+    }
+
+    button {
+      margin-left: -4px;
+      margin-top: -1px;
+      border-radius: 0;
+      float: right;
+    }
+  }
+
+  .row.full-width {
+    margin-left: 0;
+    display: block;
+    width: 100%;
+  }
+
+  .left-side-actions {
+    border-right: 1px #ccc solid;
+    // margin-right: 20%;
+    min-height: 310px;
+  }
+
+  .btn-tabbing-group {
+    .btn {
+      border: 1px solid #0069aa !important;
+      color: #676a6c;
+    }
+
+    .btn-primary {
+      color: #fff;
+    }
+
+    .no-border-left-right {
+      border-left: none !important;
+      border-right: none !important;
+    }
+
+    .btn:hover {
+      background-color: #0069aa !important;
+      color: #fff;
+    }
+  }
+
+  .table-contacts {
+    width: 100%;
+    word-wrap: break-word;
+    table-layout: fixed;
+
+    tr:first-child {
+      td {
+        border-top: none;
+      }
+    }
+
+    tr {
+      td:first-child {
+        font-weight: bold;
+      }
+    }
+
+    td {
+      padding: .75rem;
+      vertical-align: middle;
+    }
+  }
+
+  table {
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .bg-info {
+      font-size: .8571rem;
+    }
+  }
+
+  .document-modal .modal-content {
+    background: #000;
+  }
+
+  .add-contact {
+    margin-left: -20px;
+  }
+
+  .contact-sheet-box {
+    min-height: 230px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    position: relative;
+    height: 100%;
+
+    select {
+      border-radius: 0;
+    }
+
+    .employee-role {
+      font-size: 1.15rem;
+    }
+
+    .employee-title-holder {
+      hr {
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: .6rem;
+      }
+    }
+  }
+
+  .contact-sheet-box-remove-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 15px;
+  }
+
+  td.contact-info ul li p span {
+    float: right;
+  }
+
+  h5.title-center {
+    display: block;
+    width: 100%;
+  }
+
+  .action-label {
+    margin-bottom: 10px;
+  }
+
+}
+
+.job-tabs {
+  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a {
+    min-width: 250px !important;
+    height: 40px !important;
+    padding: 13px;
+  }
+
+  ul.ui-tabmenu-nav {
+    background: #fdfbfb;
+  }
+
+  .ui-state-active {
+    background: #0069aa !important;
+    border: thin #0069aa solid !important;
+
+    a {
+      color: #FFF !important;
+    }
+  }
+}
+
+.srp_border-gray {
+  border: thin #eee solid;
+}
+
+.jobs-box-holder .left-side-actions {
+  border-right: 1px #eee solid;
+  min-height: 310px;
+  height: calc(100%);
+}
+
+.col-form-label {
+  text-align: right;
+}
+
+/**Job Financials**/
+.job-financials {
+
+    .card {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+
+        .card-header {
+            color: #676a6c;
+            font-weight: 700;
+        }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+        .padded {
+            padding: 10px 15px;
+        }
+    }
+
+  .title {
+    padding-top: 10px;
+  }
+  .table-estimate {
+    th {
+      text-align: center;
+    }
+  }
+  .estimate-status {
+    width: 15%;
+    margin: 1rem auto 0;
+    padding: 0.5rem;
+  }
+  button {
+    font-size: 0.75rem;
+  }
+  h2 {
+    margin: 0 auto !important;
+    font-size: 20px !important;
+    display: block;
+    .id {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  }
+  .financial-container {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 12px;
+    .actions {
+      width: 100%;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .top {
+      .totals {
+        width: 32% !important;
+        display: inline-block;
+        float: left;
+        h3 {
+          font-size: 16px;
+          text-align: center;
+          margin-top: 7px;
+        }
+        section {
+
+          .totals-details {
+            padding: 5px 20px;
+            p {
+              margin: 10px 0;
+
+              span {
+                display: inline;
+                float: right;
+              }
+            }
+          }
+        }
+      }
+      .payment {
+        width: 66% !important;
+        display: inline-block;
+        float: right;
+        margin-left: 5px;
+        h3 {
+          font-size: 16px;
+          text-align: center;
+          margin-top: 7px;
+        }
+        table {
+          .payment-details {
+            padding: 20px 40px;
+            .detail {
+              margin: 5px 0;
+              font-weight: 700;
+              .text {
+                width: 30%;
+                display: inline-block;
+                margin-bottom: 0 !important;
+              }
+              span {
+                display: inline;
+                text-align: right;
+                width: 69%;
+                display: inline-block;
+                word-wrap: break-word;
+              }
+            }
+          }
+        }
+      }
+      .financial {
+        border: 1px solid #d8d8d8;
+        width: 27% !important;
+        height: 250px;
+        display: inline-block;
+        float: left;
+        margin-left: 5px;
+        h3 {
+          font-size: 16px;
+          text-align: center;
+          margin-top: 7px;
+        }
+        .financial-details {
+          padding: 0 10px;
+          p {
+            margin: 5px 0;
+            font-weight: 700;
+            span {
+              display: inline;
+              float: right;
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      clear: both;
+      margin-bottom: 20px;
+      .estimates {
+        h3 {
+          font-size: 16px;
+          text-align: center;
+          margin-top: 7px;
+        }
+        .estimate {
+          .btn {}
+          p {
+            margin: 10px 0;
+            span {
+              display: inline;
+              float: right;
+            }
+          }
+        }
+      }
+    }
+    .tabs {
+      clear: both;
+      .action-approve {
+        width: 10%;
+        margin: 0 auto;
+        button {
+          width: 100%;
+        }
+      }
+      hr {
+        clear: both;
+      }
+      .totals {
+        text-align: center;
+        h3 {
+          font-size: 20px;
+          margin-bottom: 30px;
+        }
+        .balances {
+          width: 45%;
+          margin: 0 auto;
+          font-size: 14px;
+          .balance-1 {
+            width: 38%;
+            display: inline-block;
+            float: left;
+          }
+          .balance-2 {
+            width: 38%;
+            display: inline-block;
+            float: right;
+          }
+          .balance-1,
+          .balance-2 {
+            p {
+              .text {
+                float: left;
+                font-weight: 700;
+              }
+              .amount {
+                float: right;
+              }
+            }
+          }
+        }
+        .estimates {
+          .amount-actions {
+            div.amount {
+              width: 50%;
+              border: 1px solid #d8d8d8;
+              float: left;
+              font-size: 14px;
+              padding: 10px 10px 0 10px;
+              .amount-1 {
+                width: 40%;
+                float: left;
+                display: inline-block;
+              }
+              .amount-2 {
+                width: 40%;
+                float: right;
+                display: inline-block;
+              }
+              .amount-1,
+              .amount-2 {
+                p {
+                  .text {
+                    float: left;
+                    font-weight: 700;
+                  }
+                  .amount {
+                    float: right;
+                  }
+                }
+              }
+            }
+            .actions {
+              width: 18%;
+              float: right;
+              button {
+                display: block;
+                float: right;
+                clear: both;
+                width: 100%;
+                margin-bottom: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+::-webkit-input-placeholder {
+  color: #CCC !important;
+}
+
+.ui-state-disabled, .ui-widget:disabled {
+  opacity: 1 !important;
+}
+
+.job-tabs .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a {
+  cursor: not-allowed !important;
+}
+
+// Custom View Port
+@media (min-width: 1600px) {
+  .jobs-box-holder {
+    .search-and-add-customer-btn-holder {
+      .autosearch {
+        width: 96.5%;
+      }
+    }
+
+  }
+}

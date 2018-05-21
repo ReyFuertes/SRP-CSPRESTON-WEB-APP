@@ -1,0 +1,93 @@
+.main-brand {
+    height: 40px !important;
+}
+
+.app-inner {
+    // margin-left: 12rem !important;
+
+    .main-header {
+        height: 40px;
+    }
+
+    .navbar {
+      min-height: 2.5rem !important;
+
+      .navbar-nav {
+        height: 100% !important;
+
+        .nav-item {
+          a {
+            font-size: 0.8571rem;
+            height: 100%;
+            img {
+              vertical-align: top;
+              width: 30px;
+              margin-top: 20%;
+            }
+
+            i {
+              vertical-align: top;
+              margin-top: 60%;
+            }
+
+            .flaticon-notification {
+              &:before {
+                vertical-align: top;
+                margin-top: 100%;
+              }
+            }
+
+            .flaticon-fullscreen, .flaticon-search {
+              &:before {
+                vertical-align: top;
+                margin-top: 80%;
+              }
+            }
+
+            .badge-danger {
+              bottom: 15px !important;
+            }
+          }
+        }
+      }
+    }
+}
+
+.tab-wrapper{
+  height:100%;
+  overflow:hidden;
+  padding-top:10px;
+  [class^="col-"]{
+    padding-left:15px;
+    padding-right:15px;
+    margin-top:-3px;
+
+    srp-tabs-container{
+      srp-cmp-resolver{
+
+      }
+    }
+  }
+}
+
+.main-footer {
+    height: 20px;
+    min-height: 20px;
+    font-size: 10px;
+
+    .nav-link {
+        line-height: 0 !important;
+    }
+}
+
+.navigation-submenu {
+  .navigation-link {
+      padding: 0.4rem 1rem 0.4rem 2.28rem !important;
+  }
+}
+
+@media screen and(max-width: 425px){
+  .app-inner {
+    margin-left: 0 !important;
+  }
+}

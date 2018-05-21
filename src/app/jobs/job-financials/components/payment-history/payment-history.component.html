@@ -1,0 +1,144 @@
+<div class="payment">
+    <div class="card">
+        <div class="card-header">
+            <div class="title col-6">
+                Invoice / Payment History
+            </div>
+            
+            <div class="action col-6">
+                <button (click)="onCreateInvoice()"  class="btn btn-success btn-add">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Invoice
+                </button>
+
+                <button (click)="onCreatePayment()"  class="btn btn-primary btn-make pull-right">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Make Payment
+                </button>
+            </div>
+        </div>
+        <div class="card-body padded">
+
+            <p *ngIf="items.length === 0" class="alert alert-warning">No invoices / payment.</p>
+
+            <p-table *ngIf="items.length > 0" [value]="items" [paginator]="true" [rows]="5">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-center" width="30px"><input type="checkbox" class="form-checkbox" (change)="onSelectAll($event)"></th>
+                        <th class="text-center" width="70px">Type</th>
+                        <th class="text-center">Invoice #</th>
+                        <th class="text-center">Due / Payment Date</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Outstanding</th>
+                        <th class="text-center" width="70px">Status</th>
+                        <th class="text-center" width="70px">Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td class="text-center"><input *ngIf="item.type == 'Invoice'" type="checkbox" class="form-checkbox invoice-cb"(change)="includeInvoice($event, item)"></td>
+                        <td class="text-center">{{ item.type }}</td>
+                        <td class="text-center">{{ item.invoice_num }}</td>
+                        <td class="text-center">{{ item.due_date }}</td>
+                        <td class="text-center">{{ formatNumber(item.amount) | currency:"$" }}</td>
+                        <td class="text-center">{{ formatNumber(item.outstanding) | currency:"$" }}</td>
+                        <td class="text-center">{{ item.status }}</td>
+                        <td class="text-center">
+                            <div *ngIf="item.type == 'Invoice'" class="btn-group dropdown-options">
+                                <i class="fa fa-ellipsis-v fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-hidden="true"></i>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a *ngIf="item.status == 'Pending'" class="dropdown-item" (click)="onIssueInvoice(item)">Issue Invoice</a>
+                                    <a *ngIf="item.status == 'Open' || item.status == 'Partial'" class="dropdown-item" (click)="onMakePayment(item)">Make Payment</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+     <ng-template #createInvoiceModal let-close="close">
+      <form class="form-horizontal" [formGroup]="createInvoiceForm" (submit)="createInvoice()">
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-size: 1rem;">Create Invoice</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" style="overflow: auto;">
+              <label for="estimate">Estimate</label>
+              <select2 *ngIf="estimates.length" [settings]="{ placeholder: 'Select Estimate' }" [options]="estimatesOption" formControlName="estimate_id" (onSelect)="onChangeEstimate($event)"></select2>
+          </div>
+          <div class="form-group">
+            <label for="id">Invoice #</label>
+            <input type="text" formControlName="invoice_id" class="form-control" (keyup)="onChangeInvoiceId($event)">
+          </div>
+          <div class="form-group">
+            <label for="amount">Invoice Amount</label>
+            <input type="number" formControlName="invoice_amount" class="form-control" (keyup)="onChangeInvoiceAmount($event)">
+          </div>
+          <div class="form-group form-invoice">
+            <label for="date">Due</label>
+            <p-calendar dateFormat="M dd yy" name="due_date" class="col-8 form-control dates-input" formControlName="due_date" (change)="onChangeDueDate($event)"></p-calendar>
+          </div>
+        </div>
+        <div class="modal-footer clearfix">
+          <button type="button" class="btn btn-danger btn-sm" (click)="onCancel()">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="!createInvoiceForm.valid">Submit</button>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #createPaymentModal let-close="close">
+      <form class="form-horizontal" [formGroup]="createPaymentForm" (submit)="createPayment()">
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-size: 1rem;">Create Payment</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="amount">Amount Received</label>
+            <input type="number" formControlName="amount_received" class="form-control" (keyup)="onChangeAmountReceived($event)">
+          </div>
+          <div class="form-group form-invoice">
+            <label for="date">Payment Date</label>
+            <p-calendar dateFormat="M dd yy" name="payment_date" class="col-8 form-control dates-input" formControlName="payment_date" (change)="onChangePaymentDate($event)"></p-calendar>
+          </div>
+          <div class="form-group">
+            <label for="amount">Reference #</label>
+            <input type="text" formControlName="reference_no" class="form-control" (keyup)="onChangeRefNo($event)">
+          </div>
+
+           <div class="form-group">
+            <label for="amount">Payment Method</label>
+            <select2 *ngIf="paymentMethods.length" [settings]="{ placeholder: 'Select Payment Method' }" [options]="paymentMethods" formControlName="payment_method" (onSelect)="onChangePaymentMethod($event)"></select2>
+          </div>
+            
+          <div formArrayName="invoices">
+              <div class="form-group" *ngFor="let item of getInvoices.controls; let i = index" [formGroupName]="i">
+                <hr>
+                <label for="amount">Amount for Invoice {{ item.controls.invoice_id.value }}</label>
+                <input type="number" formControlName="amount" class="form-control" (keyup)="onChangeAmount($event, i)">
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer clearfix">
+          <button type="button" class="btn btn-danger btn-sm" (click)="onCancelPayment()">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="!createPaymentForm.valid">Submit</button>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #issueInvoiceModal let-close="close">
+      <form class="form-horizontal" #issueInvoiceModal="ngForm" (submit)="issueInvoice()">
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-size: 1rem;">Issue Invoice</h4>
+        </div>
+        <div class="modal-body" style="font-size: 0.8rem;">
+          <p class="alert alert-info" style="margin: 0;">Are you sure you want to issue invoice?</p>
+        </div>
+        <div class="modal-footer clearfix">
+          <button type="button" class="btn btn-danger btn-sm" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm">Submit</button>
+        </div>
+      </form>
+    </ng-template>
+
+</div>
+

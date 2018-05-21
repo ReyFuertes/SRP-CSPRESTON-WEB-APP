@@ -1,0 +1,31 @@
+:host /deep/ .breadcrumb-item+.breadcrumb-item::before {
+  padding-left: 0.3rem;
+  padding-right: 0;
+}
+
+:host /deep/ .breadcrumb li>a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+  font-size: 0.8571rem;
+  padding: 0.75rem 0;
+
+  span {
+    color:#777;
+  }
+
+  a {
+    font-weight: 200;
+    color:#000;
+  }
+}
+
+.srp_breadcrumb-current-link {
+  color: #777;
+}
+
+.bold {
+  color:#000;
+}

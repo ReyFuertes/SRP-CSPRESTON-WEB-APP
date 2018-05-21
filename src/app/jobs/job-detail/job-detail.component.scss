@@ -1,0 +1,90 @@
+.alert-success {
+  margin-top: 10px;
+}
+
+.contact-sheet-box {
+  min-height: 230px;
+  border: 1px solid #333;
+  padding: 15px;
+  position: relative;
+}
+
+.contact-sheet-box-remove-btn {
+  position: absolute;
+  right: 10px;
+  bottom: 15px;
+}
+
+.btn-sm.btn-customer-info-add-customer {
+  height: 32px;
+  width: 32px;
+  margin-left: -3px;
+  position: relative;
+}
+
+.btn-sm.btn-customer-info-add-customer i {
+  position: absolute;
+  top: 2px;
+  left: 0;
+}
+
+.contact-sheet-box {
+  h5 {
+    font-size: 16px;
+  }
+}
+
+.contactsheet-form p {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.table-contacts {
+  width: 100%;
+  word-wrap: break-word;
+  table-layout: fixed;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+form {
+  select {
+    height: 30px;
+  }
+
+  .select__arrow {
+    top: 13px;
+  }
+
+  .form-check-input {
+    height: 10px;
+  }
+
+  .align-items-center {
+    h5 {
+      font-size: .8rem !important;
+    }
+  }
+
+  .alert {
+    padding: .75rem 1.25rem !important;
+  }
+
+  .add-contact {
+    margin: 0 auto;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .input-group-addon {
+    height: 30px;
+  }
+}
+
+.job-content-container {
+  padding: 10px 20px 20px;
+}

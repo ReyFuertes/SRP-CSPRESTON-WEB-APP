@@ -1,0 +1,7 @@
+<div [formGroup]="selectorFormGroup" class="dropdown" [class.selector-error]="getErrorState()">
+  <input type="text" readonly (blur)="onBlur()" class="form-control dropdown-toggle dropdownInputText" [(ngModel)]="selectedItem"
+    [placeholder]="inputName" formControlName="selectorName" name="inputSelector" data-toggle="dropdown" />
+  <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
+    <a *ngFor="let item of dropdownListItems" class="dropdown-item" (click)="onSelectItem(item)">{{item.name}}</a>
+  </div>
+</div>

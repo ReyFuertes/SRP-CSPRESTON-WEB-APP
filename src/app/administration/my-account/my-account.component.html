@@ -1,0 +1,143 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+  <ng-container class="heading">My Account</ng-container>
+  <ng-container class="body">
+    <div class="row justify-content-center my-account-buttons">
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" (click)="openChangePasswordModal()">Change Password</button>
+        <button type="button" class="btn btn-primary" (click)="openChangeEmailAddressModal()">Change Email Address</button>
+      </div>
+    </div>
+    <div class="row justify-content-center my-account-details">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-6 text-right">First Name:</div>
+          <div class="col">John</div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-right">Last Name:</div>
+          <div class="col">Doe</div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-right">Account Type:</div>
+          <div class="col">Administrator</div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-right">Email Address:</div>
+          <div class="col">john@srpmanager.com</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ibox-panel>
+
+<ng-template #changePasswordModal let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Change Password</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="changePasswordForm" class="form-horizontal changePasswordAddressForm">
+      <ng-container formGroupName="passwords">
+        <div class="form-group row" [ngClass]="{'has-success':passwordHasSuccess(),'has-danger':passwordHasDanger(),'has-warning':passwordHasWarning()}">
+          <label for="password" class="col-form-label col-sm-5 text-left">New Password:</label>
+          <div class="col">
+            <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="{'form-control-success':passwordHasSuccess(),'form-control-danger':passwordHasDanger(),'form-control-warning':passwordHasWarning()}">
+            <div class="form-control-feedback" *ngIf="passwordHasError('required','password')">
+              Password is required
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('minLength','password')">
+              Password length must be between 8 and 50 characters
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('maxLength','password')">
+              Password length must be between 8 and 50 characters
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('pattern','password')">
+              Password must contain at least 1 uppercase letter, at least 1 lowercase letter, and at least one digit
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('passwordsMatch','password')">
+              Passwords don't match
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row" [ngClass]="{'has-success':passwordConfirmationHasSuccess(),'has-danger':passwordConfirmationHasDanger(),'has-warning':passwordConfirmationHasWarning()}">
+          <label for="passwordConfirmation" class="col-form-label col-sm-5 text-left">Confirm Password:</label>
+          <div class="col">
+            <input type="password" class="form-control" id="passwordConfirmation" formControlName="passwordConfirmation" [ngClass]="{'form-control-success':passwordConfirmationHasSuccess(),'form-control-danger':passwordConfirmationHasDanger(),'form-control-warning':passwordConfirmationHasWarning()}">
+            <div class="form-control-feedback" *ngIf="passwordHasError('required','passwordConfirmation')">
+              Password is required
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('minLength','passwordConfirmation')">
+              Password length must be between 8 and 50 characters
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('maxLength','passwordConfirmation')">
+              Password length must be between 8 and 50 characters
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('pattern','passwordConfirmation')">
+              Password must contain at least 1 uppercase letter, at least 1 lowercase letter, and at least one digit
+            </div>
+            <div class="form-control-feedback" *ngIf="passwordHasError('emailsMatch','passwordConfirmation')">
+              Passwords don't match
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <div class="modal-footer clearfix">
+    <button type="button" class="btn btn-danger btn-sm" (click)="close()">Cancel</button>
+    <button type="button" class="btn btn-success btn-sm" (click)="submitPasswordChange(close,changePasswordForm.value)">
+      Submit
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #changeEmailAddressModal let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Change Email Address</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="changeEmailForm" class="form-horizontal changeEmailAddressForm">
+      <ng-container formGroupName="emails">
+        <div class="form-group row" [ngClass]="{'has-success':emailHasSuccess(),'has-danger':emailHasDanger(),'has-warning':emailHasWarning()}">
+          <label for="email" class="col-form-label col-sm-5 text-left">New Email Address:</label>
+          <div class="col">
+            <input type="text" class="form-control" id="email" formControlName="email" [ngClass]="{'form-control-success':emailHasSuccess(),'form-control-danger':emailHasDanger(),'form-control-warning':emailHasWarning()}">
+            <div class="form-control-feedback" *ngIf="emailHasError('required','email')">
+              Email is required
+            </div>
+            <div class="form-control-feedback" *ngIf="emailHasError('email','email')">
+              Must be a valid Email address
+            </div>
+            <div class="form-control-feedback" *ngIf="emailHasError('emailsMatch','email')">
+              Email addresses don't match
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row" [ngClass]="{'has-success':emailConfirmationHasSuccess(),'has-danger':emailConfirmationHasDanger(),'has-warning':emailConfirmationHasWarning()}">
+          <label for="emailConfirmation" class="col-form-label col-sm-5 text-left">Confirm Email Address:</label>
+          <div class="col">
+            <input type="text" class="form-control" id="emailConfirmation" formControlName="emailConfirmation" [ngClass]="{'form-control-success':emailConfirmationHasSuccess(),'form-control-danger':emailConfirmationHasDanger(),'form-control-warning':emailConfirmationHasWarning()}">
+            <div class="form-control-feedback" *ngIf="emailHasError('required','emailConfirmation')">
+              Email is required
+            </div>
+            <div class="form-control-feedback" *ngIf="emailHasError('email','emailConfirmation')">
+              Must be a valid Email address
+            </div>
+            <div class="form-control-feedback" *ngIf="emailHasError('emailsMatch','emailConfirmation')">
+              Email addresses don't match
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <div class="modal-footer clearfix">
+    <button type="button" class="btn btn-danger btn-sm" (click)="close()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-success btn-sm" (click)="submitEmailAddressChange(close,changeEmailForm.value)" [disabled]="!changeEmailForm.valid || changeEmailForm.controls.emails.hasError('emailsMatch')">
+      Submit
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,271 @@
+<div class="row" [hidden]="!isVisible">
+  <form id="customerInfoForm" #customerInfoForm="ngForm">
+    <div *ngIf="jobInfo" class="col-12 customer-information-container">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <h4 class="pull-left mt-3">Customer Information Sheet</h4>
+        </div>
+        <div class="col-6">
+          <button type="button" class="btn btn-success pull-right" (click)="onTabChange(nextTabIndex)">Continue</button>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row mt-4">
+        <div class="col-2" [ngStyle]="{'min-width': '215px'}">
+          <div class="left-side-actions">
+            <div class="row">
+              <div class="col">
+                <span>
+                  <h5>Customer Type</h5>
+                </span>
+              </div>
+            </div>
+            <div class="form-group pl-3">
+              <div *ngFor="let ctype of customerTypes; let i = index" class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="customer_type" [(ngModel)]="jobInfo.customer_type" [checked]="i === 0"
+                    [value]="ctype.name"> {{ctype.name | titlecase}}
+                </label>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 40px !important;">
+              <div class="col">
+                <span>
+                  <h5>Office</h5>
+                </span>
+              </div>
+            </div>
+            <div class="form-group pl-3">
+              <div *ngFor="let cOffice of custOffices; let i = index" class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="office" [(ngModel)]="jobInfo.office" [checked]="i === 0" [value]="cOffice.name"> {{cOffice.name | titlecase}}
+                </label>
+              </div>
+            </div>
+
+            <div class="col-12" style="margin-top: 40px !important;">
+              <div class="form-group" [ngStyle]="{ 'margin-bottom': '5px' }">
+                <label>
+                  <p-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="toggleSameCustomerInfo" binary="true"></p-checkbox>
+                  <span class="check-label">Same Customer Info</span>
+                </label>
+              </div>
+              <div class="form-group" [ngStyle]="{ 'margin-bottom': '5px' }">
+                <label>
+                  <p-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="toggleBillingCustomerInfo" binary="true"></p-checkbox>
+                  <span class="check-label">Same Bill To Info</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-9 pr-3">
+          <div class="form-group row">
+            <label class="col-3 col-md-2 col-form-label">Customer:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-9 search-and-add-customer-btn-holder">
+              <div *ngIf="jobContacts" class="input-group">
+                <srp-search-selector [validateSelector]="validateSelector" [ngStyle]="{ 'width': '100%' }" [placeholder]="'Customer'" [setValue]="jobInfo.customer" (inputValueChange)="inputValueChange($event)"
+                  [items]="jobContacts">
+                </srp-search-selector>
+                <span class="input-group-btn">
+                  <button class="btn btn-primary btn-icon-icon btn-customer-info-add-customer" (click)="onAddingCustomerOnModal()" type="button">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jobName" class="col-3 col-md-2 col-form-label">Job Name:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-9" [class.input-error]="jobName.invalid && (jobName.dirty || jobName.touched)">
+              <input type="text" #jobName="ngModel" required class="form-control" [ngModel]="jobInfo.name" (ngModelChange)="jobInfo.name = $event" placeholder="Job Name"
+                name="jobName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jobID" class="col-3 col-md-2 col-form-label">Job ID:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-9" [class.input-error]="jobNumber.invalid && (jobNumber.dirty || jobNumber.touched)">
+              <input type="text" #jobNumber="ngModel" required class="form-control" [(ngModel)]="jobInfo.job_number" placeholder="Job ID" name="jobNumber">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jobAddress" class="col-3 col-md-2 col-form-label">Job Address:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-9" [class.input-error]="jobAddress.invalid && (jobAddress.dirty || jobAddress.touched)">
+              <input type="text" #jobAddress="ngModel" required class="form-control" [(ngModel)]="jobInfo.address" placeholder="Address"
+                name="jobAddress">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-4 offset-2" [class.input-error]="jobCity.invalid && (jobCity.dirty || jobCity.touched)">
+              <input type="text" #jobCity="ngModel" required class="form-control" [(ngModel)]="jobInfo.city" placeholder="City"
+                name="jobCity">
+            </div>
+            <div *ngIf="states" class="input-group col-3 select">
+              <srp-dropdown-selector [validateSelector]="validateSelector" (errorItemChange)="getSelectorErrorState($event)" [isNew]="isNew" [filterId]="jobInfo.state" [dropdownListItems]="states" [inputName]="'Job States'"
+                (selectItemChange)="jobInfo.state = $event.value">
+              </srp-dropdown-selector>
+            </div>
+            <div class="col-2" [class.input-error]="jobZipCode.invalid && (jobZipCode.dirty || jobZipCode.touched)">
+              <input type="text" #jobZipCode="ngModel" required class="form-control" [ngModel]="jobInfo.zip" (ngModelChange)="jobInfo.zip = $event" placeholder="Zip Code"
+                maxlength="5" name="jobZipCode">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="jobPhone" class="col-3 col-md-2 col-form-label">Phone: </label>
+            <div class="col-4">
+              <p-inputMask class="form-control" [name]="'phone'" [(ngModel)]="jobInfo.phone" [placeholder]="'Phone'" mask="(999) 999-9999"></p-inputMask>
+            </div>
+            <label for="jobFax" class="col-1 col-form-label">Fax:</label>
+            <div class="col-4">
+              <input type="text" class="form-control" [(ngModel)]="jobInfo.fax" placeholder="Fax #" name="jobFax">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="email" class="col-3 col-md-2 col-form-label">Email:</label>
+            <div class="srp_fieldset col-4">
+              <input type="email" name="jobEmail" class="form-control inputText" [(ngModel)]="jobInfo.email" placeholder="Email">
+            </div>
+          </div>
+
+          <div class="margin-top-20" [hidden]="toggleSameCustomerInfo">
+            <hr/>
+            <div class="row mt-2 mb-2">
+              <div class="col text-left">
+                <span>
+                  <h5>Customer Info</h5>
+                </span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="customerAddress" class="col-3 col-md-2 col-form-label">Customer Address: </label>
+              <div class="col-9">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.customer_address" placeholder="Address" name="customerAddress">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-4 offset-2">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.customer_city" placeholder="City" name="customerCity">
+              </div>
+              <div *ngIf="states" class="input-group col-3 select">
+                <srp-dropdown-selector [dropdownListItems]="states" [filterId]="jobInfo.customer_state" [inputName]="'Job States'" (selectItemChange)="jobInfo.customer_state = $event.value">
+                </srp-dropdown-selector>
+              </div>
+              <div class="col-2">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.customer_zip" placeholder="Zip Code" name="customerZipCode">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="customerPhone" class="col-3 col-md-2 col-form-label">Phone:</label>
+              <div class="col-4">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.customer_phone" placeholder="Phone #" name="customerPhone">
+              </div>
+              <label for="customerFax" class="col-1 col-form-label">Fax:</label>
+              <div class="col-4">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.customer_fax" placeholder="Fax #" name="customerFax">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="customerEmail" class="col-3 col-md-2 col-form-label">Email:</label>
+              <div class="col-4">
+                <input type="email" class="form-control" [(ngModel)]="jobInfo.customer_email" placeholder="Email" name="customerEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+              </div>
+            </div>
+          </div>
+
+          <div class="margin-top-20" [hidden]="toggleBillingCustomerInfo">
+            <hr/>
+            <div class="row mt-2 mb-2">
+              <div class="col text-left">
+                <span>
+                  <h5>Billing Info</h5>
+                </span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="billingAddress" class="col-3 col-md-2 col-form-label">Billing Address:</label>
+              <div class="col-9">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.billing_address" placeholder="Address" name="billingAddress">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-4 offset-2">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.billing_city" placeholder="City" name="billingCity">
+              </div>
+              <div *ngIf="states" class="input-group col-3 select">
+                <srp-dropdown-selector [dropdownListItems]="states" [filterId]="jobInfo.billing_state" [inputName]="'Job States'" (selectItemChange)="jobInfo.billing_state = $event.value">
+                </srp-dropdown-selector>
+              </div>
+              <div class="col-2">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.billing_zip" placeholder="Zip Code" name="billingZipCode">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="billingPhone" class="col-3 col-md-2 col-form-label">Phone:</label>
+              <div class="col-4">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.billing_phone" placeholder="Phone" name="billingPhone">
+              </div>
+              <label for="billingFax" class="col-1 col-form-label">Fax:</label>
+              <div class="col-4">
+                <input type="text" class="form-control" [(ngModel)]="jobInfo.billing_fax" placeholder="Fax #" name="billingFax">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="billingEmail" class="col-3 col-md-2 col-form-label">Email:</label>
+              <div class="col-4">
+                <input type="email" class="form-control" [(ngModel)]="jobInfo.billing_email" placeholder="Email" name="billingEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- *************** TODO: make a reuseable component *************** -->
+<ng-template #addCustomerModal>
+  <form novalidate class="form-horizontal">
+    <div class="modal-header">
+      <h5 class="title">Add customer</h5>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <p>
+            <span class="text-danger">*</span> All fields are required</p>
+          <div class="form-inline">
+            <label for="type" class="col-3 col-md-3 col-form-label">Contact Type</label>
+            <!-- <srp-dropdown-selector [ngStyle]="{ 'width':'312px' }" [isDefaultFirstItem]="true" (selectItemChange)="contact.type_id = $event.value"
+              [dropdownListItems]="contactTypes"> </srp-dropdown-selector> -->
+            <select2 class="col-8" [ngStyle]="{ 'padding': '0' }" [options]="contactRoles" [(ngModel)]="contact.type_id" [ngModelOptions]="{standalone: true}"></select2>
+          </div>
+          <div class="form-inline">
+            <label for="name" class="col-3 col-md-3 col-form-label">Name</label>
+            <input type="text" noAutocomplete id="name" name="name" [(ngModel)]="contact.name" class="form-control col-8" placeholder="Name"
+              autocomplete="off" required>
+          </div>
+          <div class="form-inline">
+            <label for="company" class="col-3 col-md-3 col-form-label">Company</label>
+            <input type="text" noAutocomplete id="company" name="company" [(ngModel)]="contact.company" class="form-control col-8" placeholder="Company"
+              autocomplete="off" required>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-danger" (click)="modalRef.close()">Close</button>
+      <button type="submit" class="btn btn-sm btn-success" [disabled]="!contact.type_id || !contact.name || !contact.company" (click)="onCustomerSave(contact)">Create</button>
+    </div>
+  </form>
+</ng-template>

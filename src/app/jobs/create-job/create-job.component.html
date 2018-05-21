@@ -1,0 +1,40 @@
+<div class="jobs-box-holder">
+  <ibox-panel [breadcrumbs]="breadcrumbs">
+    <ng-container class="heading">Create Job</ng-container>
+    <ng-container class="body">
+      <div class="row">
+        <div class="col-12 srp_margin-top-10">
+          <div class="btn-group btn-group-justified btn-tabbing-group">
+            <div class="btn-group">
+              <button type="button" class="btn" [class.btn-primary]="isActiveStep(1)" [class.btn-outline-primary]="!isActiveStep(1)" (click)="goToStep(1)">
+                Customer Information
+              </button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn no-border-left-right" [class.btn-primary]="isActiveStep(2)" [class.btn-outline-primary]="!isActiveStep(2)"
+                (click)="goToStep(2)">
+                Job Information
+              </button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn" [class.btn-primary]="isActiveStep(3)" [class.btn-outline-primary]="!isActiveStep(3)" (click)="goToStep(3)">
+                Contacts
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <srp-job-customer-information [load]="load" (customerJobChange)="job = $event" [isVisible]="isActiveStep(1)" (tabChange)="currentStep = $event">
+      </srp-job-customer-information>
+
+      <srp-job-information [load]="load" (jobInformationChange)="job = $event" [paymentTerms]="paymentTerms" [isVisible]="isActiveStep(2)" (tabChange)="currentStep = $event">
+      </srp-job-information>
+
+      <srp-job-contacts-information [load]="load" (jobInformationChange)="job = $event" [contactRoles]="contactRoles" [employeeRoles]="employeeRoles"
+        [isVisible]="isActiveStep(3)" (tabChange)="currentStep = $event">
+      </srp-job-contacts-information> -->
+
+    </ng-container>
+  </ibox-panel>
+</div>

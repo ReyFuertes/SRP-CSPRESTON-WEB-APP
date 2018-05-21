@@ -1,0 +1,115 @@
+.is-active {
+    padding-top: 3px;
+    display: inline-block;
+}
+
+button {
+  cursor: pointer;
+}
+
+.has-danger {
+  input {
+    border: 1px solid red;
+  }
+}
+
+.body-container {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px 10px;
+
+    .input-fields {
+        .column {
+            padding-left: 1.5%;
+
+            &:first-child {
+                padding-right: 1.5%;
+                padding-left: 10px;
+                border-right: 1px solid rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+
+    .card {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: transparent;
+
+        .card-body {
+            padding: 10px;
+            min-height: 50px;
+
+            table {
+              margin-bottom: 0;
+
+              tr {
+
+                td {
+                  padding: 5px 0px;
+                  vertical-align: middle;
+
+                  &:first-child {
+                    width: 12%;
+                  }
+                }
+
+                &:first-child {
+                  td {
+                    border-top: none;
+                  }
+                }
+              }
+            }
+        }
+
+        .card-footer {
+            background: transparent;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+    }
+}
+
+.form-inline {
+    padding: 0px;
+}
+
+.form-inline-custom {
+    padding: 0px;
+
+    .form-check {
+        margin-right: 30px !important;
+    }
+
+    .form-check-label {
+        text-transform: capitalize;
+    }
+}
+
+.input-group {
+
+    .select {
+      width: 104px;
+
+      .select__arrow {
+        z-index: 9999;
+      }
+    }
+
+    select {
+        width: 100% !important;
+        width: 104px !important;
+        line-height: 2;
+    }
+
+    .btn {
+        border-radius: 0;
+        height: 35px !important;
+    }
+}
+
+select {
+    height: 35px !important;
+}
+
+.state-select {
+  min-width: 100px;
+}

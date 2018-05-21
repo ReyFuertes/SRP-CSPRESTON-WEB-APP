@@ -1,0 +1,141 @@
+<!-- <app-view-jobs *ngIf="listOfJobs"></app-view-jobs> -->
+
+<ibox-panel [breadcrumbs]="breadcrumbs" *ngIf="!listOfJobs">
+  <ng-container class="heading">
+    <div>Documents</div>
+    <div class="id job-id-container" *ngIf="job">Job ID: {{ job.job_number }}</div>
+  </ng-container>
+  <ng-container class="heading-aside">
+    <div class="actions text-right">
+      <button type="button" (click)="openUploadModal()" class="btn btn-success">Upload</button>
+      <button type="submit" class="btn btn-primary" (click)="getJobs()">Back</button>
+    </div>
+  </ng-container>
+
+  <ng-container class="body">
+
+    <div class="job-documents">
+        <ng-template #uploadDocumentModal>
+          <form class="form-horizontal">
+            <div class="modal-header">
+              <h5 class="title">Upload Document</h5>
+            </div>
+            <div class="modal-body">
+              <p class="alert alert-success" *ngIf="uploadSuccess">Document successfully uploaded.</p>
+              <p class="alert alert-danger" *ngIf="uploadError">Failed to upload document.</p>
+
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="selectedCategoryId">Category</label>
+                      <select name="selectedCategoryId" id="selectedCategoryId" class="form-control" [(ngModel)]="selectedCategoryId" (change)="onSelect($event)">
+                        <option *ngFor="let cat of documentCategories" [ngValue]="cat.id" [selected]="selectedCategoryId == cat.id">{{cat.name}}</option>
+                      </select> 
+                    </div>
+                    <div class="form-group" *ngIf="estimateCategorySelected">
+                      <label for="jobEstimates">Associate with Estimate</label>
+                      <select name="selectedEstimateId" id="selectedEstimateId" class="form-control" [(ngModel)]="selectedEstimateId">
+                        <option *ngFor="let estimate of job.estimates" [ngValue]="estimate.id" [selected]="selectedEstimateId == estimate.id">{{estimate.name}}</option>
+                      </select> 
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label for="document">Document</label>
+                      <p-fileUpload styleClass="btn btn-success doc-upload" (uploadHandler)="documentUploadHandler($event)" customUpload="true" multiple="multiple">
+                      </p-fileUpload>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger" (click)="closeUploadModal()">Close</button>
+            </div>
+          </form>
+        </ng-template>
+
+        <hr />
+
+        <p class="alert alert-info" *ngIf="message">{{message}}</p>
+
+
+        <div class="row">
+
+          <div class="documents-container">
+            <div class="row">
+              <div class="col-12 col-md-3">
+                <div class="form-group row">
+                  <label for="" class="p-2">Category:</label>
+                  <select name="type_id" id="type_id" class="form-control col-md-8" [(ngModel)]="filterCategoryId" (change)="listJobDocumentsByCategory($event)">
+                    <option value="0">All</option>
+                    <option *ngFor="let category of documentCategories" [value]="category.id">{{category.name}}</option>
+                  </select>
+                </div>              
+              </div>
+              <div class="col-12 col-md-3" *ngIf="estimateCategoryId == filterCategoryId">
+                <div class="form-group row">
+                  <label for="" class="p-2">Estimate:</label>
+                  <select name="type_id" id="type_id" class="form-control col-md-8" [(ngModel)]="filterEstimateId" (change)="listJobDocumentsByEstimate($event)">
+                    <option value="0">All</option>
+                    <option *ngFor="let estimate of job.estimates" [value]="estimate.id">{{estimate.name}}</option>
+                  </select>
+                </div>              
+              </div>
+            </div>
+            <hr />
+
+            <div class="documents">
+              <div class="alert alert-warning text-center" *ngIf="!jobDocuments || jobDocuments.length == 0">No documents</div>
+              <div class="selected-document" *ngIf="jobDocuments && selectedDocument">
+                <i class="fa fa-file-pdf-o" *ngIf="isPDF(selectedDocument)"></i>
+                <i class="fa fa-file-word-o" *ngIf="isDocument(selectedDocument)"></i>
+                  <i class="fa fa-file-excel-o" *ngIf="isSpreadsheet(selectedDocument)"></i>
+                <i class="fa fa-file-text-o" *ngIf="isText(selectedDocument)"></i>
+                <img *ngIf="isImage(selectedDocument)" src="{{selectedDocument.file_url}}" alt="{{selectedDocument.name}}" class="img-thumbnail">
+              </div>
+              <ul class="other-documents" *ngIf="jobDocuments">
+                <li class="sub-doc" *ngFor="let doc of jobDocuments" (click)="setSelectedDocument(doc)" [class.selected]="doc.id == selectedDocument.id">
+                  <div class="document-list-container">
+                    <div class="document-thumbnail">
+                      <i class="fa fa-file-pdf-o" *ngIf="isPDF(doc)"></i>
+                      <i class="fa fa-file-word-o" *ngIf="isDocument(doc)"></i>
+                      <i class="fa fa-file-excel-o" *ngIf="isSpreadsheet(doc)"></i>
+                      <i class="fa fa-file-text-o" *ngIf="isText(doc)"></i>
+                      <img *ngIf="isImage(doc)" src="{{doc.file_url}}" alt="{{doc.name}}" class="img-thumbnail">
+                    </div>
+                    <div class="row document-description">
+                      <p class="col-md-12 col-lg-12">
+                        {{doc.name}}
+                        <a href="javascript:void(0);" (click)="downloadDocument(doc, $event)"><i class="fa fa-download"></i></a>
+                        <a href="javascript:void(0);" (click)="confirmDocumentDelete(doc, $event)"><i class="fa fa-trash text-danger"></i></a>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </ng-container>
+</ibox-panel>
+<ng-template #deleteDocumentModal let-close="close">
+    <form class="form-horizontal" #deleteDocumentForm="ngForm" (submit)="deleteDocument(selectedDocument, $event)">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Document</h4>
+      </div>
+      <div class="modal-body">
+        <p class="alert alert-danger" *ngIf="deleteError">Failed to delete document.</p>
+        <p class="alert alert-success" *ngIf="deleteSuccess">Document successfully deleted.</p>
+        <p>Are you sure you want to delete this?</p>
+      </div>
+      <div class="modal-footer clearfix">
+        <button type="button" class="btn btn-danger btn-sm" (click)="closeDeleteModal()">Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm">Submit</button>
+      </div>
+    </form>
+</ng-template>

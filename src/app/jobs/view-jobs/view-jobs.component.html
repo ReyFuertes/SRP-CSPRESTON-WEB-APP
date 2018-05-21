@@ -1,0 +1,48 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+  <ng-container class="tab">
+    <jobs-tabmenu [selected]="0"></jobs-tabmenu>
+  </ng-container>
+  <ng-container class="heading">
+    <h2>Jobs</h2>
+  </ng-container>
+  <ng-container class="heading-aside">
+    <button (click)="onAddJob()" class="btn btn-success btn-add pull-right">
+      <i class="fa fa-plus" aria-hidden="true"></i> Add Job</button>
+  </ng-container>
+  <ng-container class="body">
+    <p-dataTable [value]="jobs" [responsive]="true" [loading]="loading">
+      <p-column field="name" [sortable]="true" header="Job Name"></p-column>
+      <p-column [sortable]="true" [style]="{ 'width': '100px', 'text-align': 'center' }" header="Job ID">
+        <ng-template let-row="rowData" pTemplate="body">
+          <span class="job-number" (click)="onEditJob(row.id)">{{row.job_number}}</span>
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'text-align': 'center', 'width': '150px'}" header="Approx. Estimate">
+        <ng-template let-row="rowData" pTemplate="body">
+           <span>{{row.approx_estimate | currency:"$"}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="open_date" [style]="{'text-align': 'center', 'width': '100px'}" header="Open Date"></p-column>
+      <p-column field="estimator_name" [style]="{'text-align': 'center', 'width': '100px'}" header="Estimator"></p-column>
+      <p-column field="status.name" [style]="{'text-align': 'center', 'width': '100px'}" header="Status"></p-column>
+      <p-column [style]="{ 'text-align': 'center', 'width': '70px', 'padding': '0'}" header="Action">
+        <ng-template let-row="rowData" pTemplate="body">
+          <div class="dropdown">
+            <!-- <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+            </a> -->
+            <i class="fa fa-ellipsis-v fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-hidden="true"></i>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" (click)="getDocuments(row.id)" href="javascript:void(0)">Documents</a>
+              <a class="dropdown-item" (click)="getJobDisplay(row)" href="javascript:void(0)">Job Display</a>
+              <a class="dropdown-item" (click)="getFinancials(row.id)" href="javascript:void(0)">Financials</a>
+              <a class="dropdown-item" (click)="onEditJob(row.id)" href="javascript:void(0)">Edit Job</a>
+            </div>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+    <p-paginator [rows]="limit" [totalRecords]="totalJobs" (onPageChange)="showJobs($event)"></p-paginator>
+
+  </ng-container>
+</ibox-panel>

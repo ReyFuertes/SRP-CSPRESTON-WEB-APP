@@ -1,0 +1,13 @@
+<div class="col-12 input-dropdown-container">
+  <div class="input-group">
+    <input type="text" noAutocomplete [(ngModel)]="inputValue"  (ngModelChange)="onBlur()" class="form-control" [placeholder]="inputPlaceholder">
+    <div class="input-group-btn">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ optionValue ? optionValue : dropdownLabel }}
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a *ngFor="let option of dropdownOptions" class="dropdown-item" (click)="onSelectOption(option)" href="javascript:void(0);">{{option.name}}</a>
+      </div>
+    </div>
+  </div>
+</div>

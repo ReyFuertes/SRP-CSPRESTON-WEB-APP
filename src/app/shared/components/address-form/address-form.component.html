@@ -1,0 +1,66 @@
+<div class="body-container">
+    <div class="card">
+        <div class="card-body">
+
+            <div *ngIf="addresses.length > 0">
+                <table class="table table-sm address">
+                    <tbody>
+                        <tr *ngFor="let address of addresses; index as ai">
+                            <td style="width: 70%">
+                                <address>
+                                    <strong>{{ address.type }}</strong>
+                                    <br> {{ address.address }}
+                                    <br> {{ address.city }}, {{ address.state }} {{ address.zip }}
+                                </address>
+                            </td>
+                            <td style="vertical-align: top;">
+                                <button (click)="removeAddress(ai)" class="btn btn-danger btn-sm pull-right">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="addresses.length === 0">
+                Not Set
+            </div>
+
+        </div>
+        <div class="card-footer" [formGroup]="addressFormGroup" [class.has-danger]="!isAddressValid() && addressFormSubmitted">
+            <div class="input-group">
+                <div class="input-group-prepend select">
+                    <select class="form-control" [(ngModel)]="addressType" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let addressType of addressTypes" [value]="addressType.id">{{addressType.name}}</option>
+                    </select>
+                    <div class="select__arrow"></div>
+                </div>
+                <input id="addresses" type="text" [(ngModel)]="addr" formControlName="addr" class="form-control" placeholder="Address">
+            </div>
+            <div class="form-inline mt-2">
+                <div class="form-check mb-2 mr-sm-2">
+                    <input type="text" style="width: 150px;" class="form-control" [(ngModel)]="city" formControlName="city" placeholder="City">
+                </div>
+
+                <div class="form-check mb-2 mr-sm-2 select">
+                    <select class="form-control state-select" [(ngModel)]="state" formControlName="state">
+                        <option *ngFor="let st of states" [value]="st.value">{{st.name}}</option>
+                    </select>
+                    <div class="select__arrow"></div>
+                </div>
+
+                <div class="form-check mb-2 mr-sm-2">
+                    <input type="text" class="form-control" maxlength="5" [(ngModel)]="zipCode" formControlName="zipCode" style="width: 100px;"
+                        placeholder="Zipcode">
+                </div>
+
+                <div class="form-check mb-2 mr-sm-2">
+                    <button class="btn btn-primary btn-flat" (click)="addNewAddress()">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

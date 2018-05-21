@@ -1,0 +1,99 @@
+<app-job-timecards *ngIf="showTimeCardsList" [job]="job"></app-job-timecards>
+
+<ibox-panel [breadcrumbs]="breadcrumbs" *ngIf="!listOfJobs && job">
+  <ng-container class="heading">
+    <div>Job Financials</div>
+    <div class="id job-id-container">Job ID: {{ job.job_number }}</div>
+  </ng-container>
+
+  <ng-container class="heading-aside">
+    <div class="actions text-right">
+      <button type="submit" class="btn btn-primary" (click)="showCreateEstimateForm()">Add New Estimate</button>
+      <button type="submit" class="btn btn-secondary" (click)="getJobs()">Back</button>
+    </div>
+  </ng-container>
+
+  <ng-container class="body">
+
+    <div class="job-financials">
+      <p class="alert alert-info" *ngIf="message">{{message}}</p>
+      <div class="row">
+
+
+        <div class="financial-container">
+          <div class="tables">
+
+            <div class="row">
+              <div class="col-3">
+                <job-totals [job]="job"></job-totals>
+              </div>
+
+              <div class="col-9">
+                <payment-history [job]="job" [estimates]="job.estimates" [id]="id"></payment-history>
+              </div>
+
+            </div>
+
+            <div class="bottom" *ngIf="jobTables && job">
+                <estimates-overview
+                    [estimates]="job.estimates"
+                    (onEditEstimate)="goToEditEstimate($event)"
+                    (onDeleteEstimate)="onDelete($event)"
+                    (viewTypeChange)="viewTypeChange($event)"
+                    [viewType]="'grid'"></estimates-overview>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <ng-template #approveEstimateModal let-close="close">
+        <form class="form-horizontal" #approveEstimateForm="ngForm" (submit)="approveEstimate(approveEstimateForm)">
+          <div class="modal-header">
+            <h4 class="modal-title" style="font-size: 20px;">Approve Estimate</h4>
+          </div>
+          <div class="modal-body">
+            <p class="alert alert-info" *ngIf="!app_message">Are you sure you want to approve this estimate?</p>
+            <p class="alert alert-success" *ngIf="app_message">Approve successful!</p>
+          </div>
+          <div class="modal-footer clearfix">
+            <button type="button" class="btn btn-danger btn-sm" (click)="close()">Cancel</button>
+            <button type="submit" class="btn btn-success btn-sm">Submit</button>
+          </div>
+        </form>
+    </ng-template>
+
+    <ng-template #disapproveEstimateModal let-close="close">
+        <form class="form-horizontal" #disapproveEstimateForm="ngForm" (submit)="disapproveEstimate(disapproveEstimateForm)">
+          <div class="modal-header">
+            <h4 class="modal-title" style="font-size: 20px;">Disapprove Estimate</h4>
+          </div>
+          <div class="modal-body">
+            <p class="alert alert-info" *ngIf="!dis_message">Are you sure you want to disapprove this estimate?</p>
+            <p class="alert alert-success" *ngIf="dis_message">Disapprove successful!</p>
+          </div>
+          <div class="modal-footer clearfix">
+            <button type="button" class="btn btn-danger btn-sm" (click)="close()">Cancel</button>
+            <button type="submit" class="btn btn-success btn-sm">Submit</button>
+          </div>
+        </form>
+    </ng-template>
+  </ng-container>
+</ibox-panel>
+
+<ng-template #deleteModal let-close="close">
+    <form class="form-horizontal" #deleteCategoryForm="ngForm" (submit)="delete()">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Estimate</h4>
+      </div>
+      <div class="modal-body">
+        <p class="alert alert-danger">Are you sure you want to delete this?</p>
+      </div>
+      <div class="modal-footer clearfix">
+        <button type="button" class="btn btn-danger btn-sm" (click)="closeDelete()">Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm">Submit</button>
+      </div>
+    </form>
+</ng-template>

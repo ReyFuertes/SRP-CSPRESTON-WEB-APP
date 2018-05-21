@@ -1,0 +1,81 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+  <ng-container class="tab">
+    <jobs-tabmenu [selected]="1"></jobs-tabmenu>
+  </ng-container>
+  <ng-container class="heading"></ng-container>
+  <ng-container class="heading-aside">
+    <a *ngIf="canCreate()" href="/timecard" class="btn btn-primary pull-right enter-timecard">Enter My {{timecardText}}</a>
+  </ng-container>
+  <ng-container class="body">
+    <hr />
+    <div class="col-md-12">
+      <!-- <div class="ibox-title">
+        <h2 class="srp_font-w-300"></h2>
+        <hr/>
+
+      </div> -->
+      <div>
+        <div class="timecard-container">
+          <div class="row filter">
+            <div class="col-10">
+              <label for="">Filter By:</label>
+              <select name="weekRange" class="form-control select" (change)="getTimeCardsByWeek($event.target.value)">
+                            <option *ngFor="let week of weeks" [value]="week.name" [selected]="prevWeek == week.name">[Week {{ week.id }}] {{week.name}}</option>
+                        </select>
+
+              <select name="status" class="form-control select" (change)="filterTimecards($event)" style="width: 20%;">
+                  <option value="">All</option>
+                  <option value="Not Submitted">Not Submitted</option>
+                  <option value="Pending Super">Pending Super</option>
+                  <option value="Pending AP">Pending AP</option>
+                  <option value="Pending Payment">Pending Payment</option>
+                  <option value="Partially Paid">Partially Paid</option>
+                  <option value="PAID">Paid</option>
+              </select>
+            </div>
+            <div class="col-2">
+              <input type="text" placeholder="Search" class="form-control" (keyup)='searcTimecard($event.target.value)'>
+            </div>
+          </div>
+
+          <div class="box" *ngIf="timecards.length == 0">
+            <hr>
+            <p class="alert alert-warning"> No timecards</p>
+          </div>  
+
+          <div *ngIf="timecards.length != 0">
+            <div class="box">
+              <hr>
+              <p-table [columns]="cols" [value]="timecards">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>Name</th>
+                        <th>Hours Worked</th>
+                        <th>Week</th>
+                        <th>Status</th>
+                        <th>Entered</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-timecard>
+                  <tr>
+                      <td>{{ timecard.contact ? timecard.contact.name : '' }}</td>
+                      <td>{{ formatNumber(timecard.total_hours) }}</td>
+                      <td>{{ timecard.week_range }}</td>
+                      <td>{{ timecard.status }}</td>
+                      <td>{{ timecard.created_at }}</td>
+                      <td style="text-align: center;">
+                         <button type="button" (click)="gotoTimecardItems(timecard.id)" class="btn btn-sm btn-primary"> <i class="fa fa-eye"></i></button>
+                      </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+</ibox-panel>

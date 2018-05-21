@@ -1,0 +1,148 @@
+<div class="kanban-card kanban-type-{{card.theme ? card.theme : 'success'}}" [contextMenu]="kanbanCardContextMenu">
+  <context-menu #kanbanCardContextMenu [disabled]="!withMenu">
+    <ng-template contextMenuItem [subMenu]="kanbanCardMoveToContextMenu"
+                 [enabled]="!card.type.includes('invoice_due_')">
+      Move to
+    </ng-template>
+    <context-menu #kanbanCardMoveToContextMenu>
+      <ng-template contextMenuItem (execute)="moveCard(card,column.id)" *ngFor="let column of columns"
+                   [enabled]="!card.type.includes('invoice_due_') && column.id !== card.column">
+        {{column.name}}
+      </ng-template>
+    </context-menu>
+    <ng-template contextMenuItem (execute)="approve()"
+                 [enabled]="card.type === 'estimates_for_approval' || card.type === 'invoice_reminders'">
+      Approve
+    </ng-template>
+    <ng-template contextMenuItem (execute)="adjustAndApprove()"
+                 [enabled]="card.type === 'invoice_reminders'">
+      Adjust and Approve
+    </ng-template>
+    <ng-template contextMenuItem (execute)="reject()"
+                 [enabled]="card.type === 'estimates_for_approval' || card.type === 'invoice_reminders'">
+      Reject
+    </ng-template>
+    <ng-template contextMenuItem (execute)="requestInvoice()"
+                 [enabled]="card.type === 'underbilled'">
+      Request Invoice
+    </ng-template>
+    <ng-template contextMenuItem (execute)="openRelatedJob()"
+                 [enabled]="true">
+      Open related Job
+    </ng-template>
+    <ng-template contextMenuItem (execute)="markNonAccepted()"
+                 [enabled]="card.type === 'stalled_sales'">
+      Mark as "Non-Accepted"
+    </ng-template>
+    <ng-template contextMenuItem (execute)="null">
+      Test
+    </ng-template>
+  </context-menu>
+  <div class="kanban-card-title">Job: <a href="#">#{{card.job.id}} {{card.job.name}}</a></div>
+  <div class="kanban-card-content">
+    <ng-container [ngSwitch]="card.type">
+      <div *ngSwitchCase="'underbilled'">
+
+      </div>
+      <div *ngSwitchCase="'missing_budget'">
+
+      </div>
+      <div *ngSwitchCase="'missing_estimate'">
+
+      </div>
+      <div *ngSwitchCase="'documents_awaiting_signature'">
+
+      </div>
+      <div *ngSwitchCase="'estimates_for_approval'">
+
+      </div>
+      <div *ngSwitchCase="'stalled_sales'">
+
+      </div>
+      <div *ngSwitchCase="'invoice_reminders'">
+
+      </div>
+      <div *ngSwitchCase="'past_due'">
+
+      </div>
+      <div *ngSwitchCase="'due_today'">
+
+      </div>
+      <div *ngSwitchCase="'due_tomorrow'">
+
+      </div>
+      <div *ngSwitchCase="'due_next_week'">
+
+      </div>
+      <div *ngSwitchCase="'sales'">
+        <div *ngIf="card.status">Status: {{card.status}}</div>
+        <div *ngIf="card.other_issues && card.other_issues.length > 0">
+          Other issues:<br>
+          <ul>
+            <li *ngFor="let issue of card.other_issues">{{issue.description}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'production'">
+        <div *ngIf="card.status">Status: {{card.status}}</div>
+        <div *ngIf="card.other_issues && card.other_issues.length > 0">
+          Other issues:<br>
+          <ul>
+            <li *ngFor="let issue of card.other_issues">{{issue.description}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'collect_money'">
+        <div *ngIf="card.status">Status: {{card.status}}</div>
+        <div *ngIf="card.other_issues && card.other_issues.length > 0">
+          Other issues:<br>
+          <ul>
+            <li *ngFor="let issue of card.other_issues">{{issue.description}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'hold'">
+        <div *ngIf="card.status">Status: {{card.status}}</div>
+        <div *ngIf="card.reasons && card.reasons.length > 0">
+          Reasons:<br>
+          <ul>
+            <li *ngFor="let reason of card.reasons">{{reason.description}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'invoice_due_30'">
+        <div *ngIf="card.due">Due: {{card.due}}</div>
+        <div *ngIf="card.pending_balance">Pending Balance: {{card.pending_balance}}</div>
+        <div *ngIf="card.invoice">Invoice: <a href="#">{{card.invoice}}</a></div>
+        <div *ngIf="card.reminders_sent && card.reminders_sent.length > 0">
+          Reminders sent:<br>
+          <ul>
+            <li *ngFor="let reminder of card.reminders_sent">{{reminder.date}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'invoice_due_60'">
+        <div *ngIf="card.due">Due: {{card.due}}</div>
+        <div *ngIf="card.pending_balance">Pending Balance: {{card.pending_balance}}</div>
+        <div *ngIf="card.invoice">Invoice: <a href="#">{{card.invoice}}</a></div>
+        <div *ngIf="card.reminders_sent && card.reminders_sent.length > 0">
+          Reminders sent:<br>
+          <ul>
+            <li *ngFor="let reminder of card.reminders_sent">{{reminder.date}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'invoice_due_90'">
+        <div *ngIf="card.due">Due: {{card.due}}</div>
+        <div *ngIf="card.pending_balance">Pending Balance: {{card.pending_balance}}</div>
+        <div *ngIf="card.invoice">Invoice: <a href="#">{{card.invoice}}</a></div>
+        <div *ngIf="card.reminders_sent && card.reminders_sent.length > 0">
+          Reminders sent:<br>
+          <ul>
+            <li *ngFor="let reminder of card.reminders_sent">{{reminder.date}}</li>
+          </ul>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

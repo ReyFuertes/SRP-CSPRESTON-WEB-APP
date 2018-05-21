@@ -1,0 +1,62 @@
+@import "main";
+@import "tabs";
+@import "kanban";
+@import "forms";
+
+.tab-link {
+
+  border-bottom: 1px solid #CCC;
+  display: block;
+  width: 100%;
+
+  .ui-tabmenu {
+
+    .ui-tabmenu-nav {
+
+      background: #fdfbfb;
+      padding: 0;
+
+      .ui-tabmenuitem {
+
+        border: none;
+        background: none !important;
+        margin: 0px;
+        border-bottom: 3px solid transparent;
+
+        .ui-menuitem-link {
+          padding: 0;
+          height: 48px;
+          padding: 0 24px;
+          cursor: pointer;
+          box-sizing: border-box;
+          opacity: .6;
+          min-width: 160px;
+          text-align: center;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          white-space: nowrap;
+          vertical-align: top;
+          text-decoration: none;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .ui-menuitem-text {
+
+          text-transform: uppercase;
+
+        }
+
+        .ui-menuitem-icon {
+          padding-right: 5px;
+        }
+
+        &.ui-state-active {
+          border-bottom-color: #0069AA
+        }
+
+      }
+    }
+  }
+}

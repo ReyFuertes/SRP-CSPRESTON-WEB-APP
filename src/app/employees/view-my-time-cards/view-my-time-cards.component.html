@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-12">
+    <h2 class="text-center title">Timecard Overview</h2> 
+    <hr />
+
+    <div class="timecard-container">
+    	<div class="top">
+	    	<div class="filter">
+	    		<label for="">Filter By:</label>
+	    		<select name="" id="" class="form-control">
+	    			<option value="">Week</option>
+	    			<option value="">Month</option>
+	    		</select>
+
+	    		<select name="weekRange" class="form-control select">
+                    <option *ngFor="let week of weeks" [value]="week.name">[Week {{ week.id }}] {{week.name}}</option>
+                </select>
+	    	</div>
+
+	    	<div class="search-container">
+	    		<input type="text" placeholder="Search" class="form-control">
+	    	</div>
+    	</div>
+
+    	<div class="timecards" *ngIf="timecards">
+    		<div class="board-container" *ngFor="let key of Object.keys(timecards)">
+    			<h3>{{ key }}</h3>
+    			<div class="board" *ngFor="let timecard of timecards[key]">
+    				<div class="content" *ngFor="let item of timecard.items">
+                        <p class="job">Job #: {{ item.job.job_number }}</p>
+    					<p class="hours">Hours Worked: {{ item.hours }}</p>
+    					<p class="time">{{ timecard.week_range }}</p>
+    					<p class="entered">Entered: {{ timecard.created_at }}</p>
+    				</div>
+    			</div>
+                <div class="board no-timecards" *ngIf="!timecards[key].length">
+                    <p class="alert alert-danger">
+                        Not timecards.
+                    </p>
+                </div>
+    		</div>
+    	</div>
+    </div>
+
+  </div>

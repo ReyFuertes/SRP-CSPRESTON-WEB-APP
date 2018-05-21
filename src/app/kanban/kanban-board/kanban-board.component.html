@@ -1,0 +1,46 @@
+<div class="row kanban-board" *ngIf="viewType && viewType.length > 0 && viewType !== 'grid'">
+  <ng-container *ngFor="let column of columns">
+    <div class="col kanban-board-column" *ngIf="column && column.visible"
+         id="kanban-board-column-{{column.id}}">
+      <div class="row kanban-board-header-row">
+        <div class="col kanban-board-column-header" [ngClass]="{'double-header':viewType === 'tasks'}">
+          <h4 class="text-center">{{column.name}}</h4>
+        </div>
+      </div>
+      <div class="scroll-container scroll-visible" [ngClass]="{'isDragging':isDragging}" srpDroppable (drop)="moveCardAfterDrop($event.dropData,column)"
+           [perfectScrollbar]="config">
+        <div class="row" *ngFor="let card of getCardsForColumn(column.id)" style="overflow-x:visible;">
+          <kanban-card [card]="card" [columns]="columns" [withMenu]="enableContextMenu && viewType !== 'grid'"
+                       srpDraggable (dragStart)="isDragging = true" (dragEnd)="isDragging = false"
+                       [dropData]="card"></kanban-card>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="col-6 offset-md-3" *ngIf="noVisibleColumn()">
+    <div class="alert alert-warning">
+      All available columns have been disabled. Please enable one or more columns through the "Advanced Filter" menu.
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="viewType && viewType.length > 0 && viewType === 'grid'">
+
+</div>
+<!-- <ngx-datatable
+  class="fullscreen"
+  [columnMode]="'force'"
+  [headerHeight]="40"
+  [footerHeight]="0"
+  [rowHeight]="40"
+  [scrollbarV]="true"
+  [scrollbarH]="true"
+  [rows]="rows">
+  <ngx-datatable-column name="'Job'" [width]="80" [prop]="job"></ngx-datatable-column>
+  <ngx-datatable-column name="'Job Name'" [width]="300" [prop]="name"></ngx-datatable-column>
+  <ngx-datatable-column name="'Status'" [prop]="status"></ngx-datatable-column>
+  <ngx-datatable-column name="'Issues'" [prop]="issues"></ngx-datatable-column>
+  <ngx-datatable-column name="'Estimate'" [width]="300" [prop]="estimate"></ngx-datatable-column>
+  <ngx-datatable-column name="'Cost to Date'" [width]="300" [prop]="cost_to_date"></ngx-datatable-column>
+  <ngx-datatable-column name="'Estimator'" [width]="300" [prop]="estimator"></ngx-datatable-column>
+  <ngx-datatable-column name="'Superintendent'" [width]="300" [prop]="superintendent"></ngx-datatable-column>
+</ngx-datatable> -->

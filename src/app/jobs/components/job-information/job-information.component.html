@@ -1,0 +1,161 @@
+<div *ngIf="jobInfo" class="row" [hidden]="!isVisible" class="job-information-container">
+  <form id="jobInformationForm" #jobInformationForm="ngForm">
+    <div>
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h4 class="pull-left mt-3">Job Information Sheet</h4>
+        </div>
+        <div class="col-4 text-right">
+          <button type="button" class="btn btn-primary" (click)="onTabChange(prevTabIndex)">Back</button>
+          <button type="button" class="btn btn-success" (click)="onTabChange(nextTabIndex)">
+            Continue
+          </button>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row mt-4">
+        <div class="col-6">
+          <div class="form-group row align-items-center">
+            <label for="jobStatus" class="col-3 col-form-label">Job Status:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="jobStatus.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.status_id" (selectItemChange)="jobInfo.status_id = $event.id"
+                [dropdownListItems]="jobStatus" [inputName]="'Job Status'"> </srp-dropdown-selector>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="jobType" class="col-3 col-form-label">Job Type:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="jobTypes.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.job_type_id" (selectItemChange)="jobInfo.job_type_id = $event.id"
+                [dropdownListItems]="jobTypes" [inputName]="'Job Type'"></srp-dropdown-selector>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addJobTypeModal.open()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="workTypes" class="col-3 col-form-label">Work Type:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="workTypes.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.work_type_id" (selectItemChange)="jobInfo.work_type_id = $event.id"
+                [dropdownListItems]="workTypes" [inputName]="'Work Type'"></srp-dropdown-selector>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addWorkTypeModal.open()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="propertyTypes" class="col-3 col-form-label">Property Type:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="propertyTypes.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.property_type_id" (selectItemChange)="jobInfo.property_type_id = $event.id"
+                [dropdownListItems]="propertyTypes" [inputName]="'Property Type'"></srp-dropdown-selector>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addPropertyTypeModal.open()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="damageType" class="col-3 col-form-label">Damage Type:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="damageTypes.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.damage_type_id" (selectItemChange)="jobInfo.damage_type_id = $event.id"
+                [dropdownListItems]="damageTypes" [inputName]="'Damage Type'"></srp-dropdown-selector>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addDamageTypeModal.open()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="referralType" class="col-3 col-form-label">Referral Type:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="referralTypes.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.referral_type_id" (selectItemChange)="jobInfo.referral_type_id = $event.id"
+                [dropdownListItems]="referralTypes" [inputName]="'Referral Type'"></srp-dropdown-selector>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addReferralTypeModal.open()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group row align-items-center">
+            <label for="yearBuilt" class="col-5 col-form-label">Year Built:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="yearsBuilt.length > 0" [validateSelector]="validateSelector" [filterId]="jobInfo.year_built" (selectItemChange)="jobInfo.year_built = $event.value"
+                [dropdownListItems]="yearsBuilt" [inputName]="'Year Built'"></srp-dropdown-selector>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="paymentTerm" class="col-5 col-form-label">Payment Terms:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-5">
+              <srp-dropdown-selector *ngIf="paymentTerms.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.payment_term_id" (selectItemChange)="jobInfo.payment_term_id = $event.id"
+                [dropdownListItems]="paymentTerms" [inputName]="'Payment Term'"></srp-dropdown-selector>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addPaymentTermsModal.open()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="claimNumber" class="col-5 col-form-label">Claim Number:</label>
+            <div class="col-7">
+              <input type="text" name="claimNumber" [(ngModel)]="jobInfo.claim_number" placeholder="Claim Number" class="form-control"
+                id="claimNumber">
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="approxEstimate" class="col-5 col-form-label">Approximate Estimate:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-7 input-group" [class.input-error]="approxEstimate.invalid && (approxEstimate.dirty || approxEstimate.touched)">
+              <span class="input-group-addon">$</span>
+              <input type="text" #approxEstimate="ngModel" required name="approxEstimate" [(ngModel)]="jobInfo.approx_estimate" class="form-control"
+                placeholder="Approximate Estimate" id="approxEstimate">
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <label for="jobProbability" class="col-5 col-form-label">Job Probability:
+              <span class="text-danger">*</span>
+            </label>
+            <div class="input-group select col-7">
+              <srp-dropdown-selector *ngIf="jobProbabilities.length > 0" [validateSelector]="validateSelector" [isNew]="isNew" [filterId]="jobInfo.probability" (selectItemChange)="jobInfo.probability = $event.value"
+                [dropdownListItems]="jobProbabilities" [inputName]="'Job Probabilities'"></srp-dropdown-selector>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<add-damage-type-modal #addDamageTypeModal="addDamageTypeModal" (onModalSubmit)="damageTypeAdded($event)"></add-damage-type-modal>
+<add-job-type-modal #addJobTypeModal="addJobTypeModal" (onModalSubmit)="jobTypeAdded($event)"></add-job-type-modal>
+<add-payment-terms-modal #addPaymentTermsModal="addPaymentTermsModal" (onModalSubmit)="paymentTermsAdded($event)"></add-payment-terms-modal>
+<add-property-type-modal #addPropertyTypeModal="addPropertyTypeModal" (onModalSubmit)="propertyTypeAdded($event)"></add-property-type-modal>
+<add-referral-type-modal #addReferralTypeModal="addReferralTypeModal" (onModalSubmit)="referralTypeAdded($event)"></add-referral-type-modal>
+<add-work-type-modal #addWorkTypeModal="addWorkTypeModal" (onModalSubmit)="workTypeAdded($event)"></add-work-type-modal>

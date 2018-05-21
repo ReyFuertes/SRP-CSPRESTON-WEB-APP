@@ -1,0 +1,72 @@
+.title {
+    padding-top: 10px;
+}
+
+table {
+	.btn {
+	    text-transform: capitalize !important;
+	}
+}
+
+.timecard-container {
+	.top {
+		overflow: auto;
+
+		.filter {
+		    width: 50%;
+		    float: left;
+		    display: inline-block;
+
+		    select {
+	    	    width: 30%;
+    			display: inline-block;
+		    }
+
+		    select[name="weekRange"] {
+		    	width: 45%; 
+		    }
+		}
+
+		.search-container {
+		    width: 15%;
+    		float: right;
+
+    		input {
+    			width: 100%;
+    		}
+		}
+	}
+
+	.timecards {
+		clear: both;
+		margin-top: 60px;
+
+		.board-container {
+			width: 19%;
+			margin-left: 9px;
+			display: inline-block;
+			vertical-align: top;
+
+			h3 {
+				font-size: 1rem;
+				text-align: center;
+			}
+
+			.board {
+				border: 1px solid #d8d8d8;
+				width: 100%;
+				padding: 10px 10px 0 10px;
+
+				.content {
+					border: 1px solid #d8d8d8;
+					padding: 10px;
+					margin-bottom: 10px;
+
+					p {
+						margin-bottom: 0.5rem;
+					}
+				}
+			}
+		}
+	}
+}

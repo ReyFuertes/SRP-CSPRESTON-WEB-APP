@@ -1,0 +1,89 @@
+.create-contact .form-inline {
+    padding: 5px 0;
+}
+.ui-datepicker {
+    background: #fff;
+}
+.ui-inputtext {
+    padding: 0;
+    border: none;
+    width: 100%;
+}
+.ui-datepicker .ui-state-disabled a,
+.ui-datepicker .ui-state-disabled a:hover {
+    color: #999;
+    cursor: pointer;
+    font-weight: normal;
+}
+.ui-datepicker a:hover {
+    color: #014b75;
+    font-weight: bold;
+}
+.create-contact button[type="button"] {
+    margin: 10px 0;
+}
+.create-contact input[name="phone"],
+.create-contact input[name="email"] {
+    margin: 0 5px;
+}
+.create-contact .form-inline label {
+    justify-content: left;
+    vertical-align: top;
+    align-items: left;
+}
+h2.text-center.title {
+    font-size: 25px;
+}
+.well {
+    padding: 15px;
+    border: 1px solid #009ffc;
+}
+.well-internal {
+    padding: 10px;
+    margin: 0 0 5px;
+}
+.step-last .row {
+    padding: 0 0 10px;
+}
+
+.btn.btn-warning {
+    color: #555;
+}
+p.bg-info {
+    padding: 5px 10px;
+    color: #fff;
+}
+.form-inline > label {
+    padding-right: 10px;
+}
+.form-inline {
+    padding: 0 0 15px;
+}
+form .has-danger .form-control {
+    border-color: red !important;
+}
+a.link {
+    cursor: pointer;
+    color: #0069aa !important;
+}
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+.autosearch .ui-autocomplete-panel {
+	background: #fff;
+}
+.col-12.autosearch {
+    padding-left: 0;
+    padding-right: 0;
+}
+.doc-upload.ui-fileupload {
+	min-height: 30px;
+}
+.doc-upload .ui-fileupload-buttonbar,
+.doc-upload .ui-fileupload-content {
+    padding: 0;
+}
+.doc-upload .ui-fileupload-buttonbar .ui-button {
+    border: 1px solid #eee;
+}

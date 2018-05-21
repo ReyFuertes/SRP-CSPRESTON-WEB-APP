@@ -1,0 +1,138 @@
+textarea {
+  resize : none;
+}
+
+select {
+  width: 100% !important;
+  height: 35px !important; 
+}
+
+.phone-select {
+  border-right: 0px !important;
+  min-width: 103px !important;
+}
+
+.form-control {
+  line-height: 1.25 !important;
+}
+
+.col-border-right {
+  border-right  : 2px solid #cccccc;
+  padding-right : 20px;
+}
+
+.upload-files-column {
+  margin-bottom : 10px;
+}
+
+.uploadColumn{
+  width:250px;
+}
+
+.card {
+  .card-header {
+    background: rgba(0,0,0,0.03);
+    border: 1px solid #ccc;
+  }
+
+  .card-body {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .btn-link {
+    color: #676a6c;
+    font-weight: bold;
+  }
+}
+
+$file-listing-height : 155px;
+$file-listing-width : 170px;
+
+.file-listing {
+  border        : 1.5px solid rgba(0, 0, 0, 0.3);
+  padding       : 10px 0 5px;
+  margin        : 0 10px 10px 0;
+  border-radius : 20px 0 20px 0;
+  box-shadow    : 1px 1px 4px 0 rgba(66, 66, 66, 0.5);
+  transition    : border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
+  min-height    : $file-listing-height;
+  max-height    : $file-listing-height;
+  height        : $file-listing-height;
+  min-width     : $file-listing-width;
+  max-width     : $file-listing-width;
+  width         : $file-listing-width;
+
+  &:hover {
+    cursor       : default;
+    border-color : rgba(#0069aa, 0.2);
+    box-shadow   : 1px 1px 4px 0 rgba(66, 66, 66, 0.7);
+  }
+  img {
+    max-height : $file-listing-height / 2;
+    max-width  : $file-listing-width / 1.2;
+    &:hover{
+      cursor:pointer;
+    }
+  }
+}
+
+.file-action-list {
+  i {
+    transition : font-size 300ms ease-in-out;
+    color      : #000000;
+    &:hover {
+      cursor    : pointer;
+      color     : #aaaaaa;
+      font-size : 1.3em;
+    }
+  }
+}
+
+.animated-column{
+  transition: all 1s;
+}
+
+form {
+  .animated-column {
+      position: relative;
+      height: 100% !important;
+      min-height: 100% !important;
+      max-height: 100% !important;
+  }
+}
+
+.is-active {
+  padding-top: 3px; 
+  display: inline-block;
+}
+
+.container-fluid {
+  .row {
+    margin: 0px !important;
+  }
+  
+  .notes-row {
+    margin-left: -7.5px !important;
+    margin-right: -7.5px !important;
+  }
+}
+
+ /* Medium Devices, Desktops */
+ @media only screen and (min-width : 992px) {
+  .custom-col {
+    padding-right: 1%;
+    padding-left: 1%;
+
+    &:first-child {
+      padding-right: 2%;
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-left: 2%;
+      padding-right: 0;
+    }
+  }
+}

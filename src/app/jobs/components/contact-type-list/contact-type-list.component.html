@@ -1,0 +1,47 @@
+<div class="contact-container">
+  <div class="row">
+    <h4>Customer</h4>
+  </div>
+  <div *ngIf="customerContacts.length > 0 else noRecordToShow" class="row">
+    <div *ngFor="let jobContact of customerContacts" class="col-4">
+      <srp-contact-type (onDeleteChange)="removeJobContact($event)" (dropdownChange)="dropdownChange.emit($event)" [jobContact]="jobContact"></srp-contact-type>
+    </div>
+  </div>
+</div>
+<hr/>
+<div class="employee-container">
+  <div class="row">
+    <h4>Employee</h4>
+  </div>
+  <div class="row">
+    <!-- <div *ngFor="let role of employeeRoles" class="col-3">
+      <srp-contact-type-employee [jobInfo]="jobInfo" [role]="role" [contacts]="contacts"></srp-contact-type-employee>
+    </div> -->
+  </div>
+
+  <!-- <div *ngIf="employeeRoles.length > 0 else noRecordToShow" class="row">
+    <div *ngFor="let role of employeeRoles" class="col-3">
+      <div *ngFor="let jobContact of employeeContacts">
+        <srp-contact-type [jobContact]="jobContact"></srp-contact-type>
+      </div>
+    </div>
+    <div *ngFor="let jobContact of employeeContacts" class="col-4">
+      <srp-contact-type (onDeleteChange)="removeJobContact($event)" (dropdownChange)="dropdownChange.emit($event)" [jobContact]="jobContact"></srp-contact-type>
+    </div>
+  </div> -->
+</div>
+<hr/>
+<div class="subcontractor-container">
+  <div class="row">
+    <h4>SubContractor</h4>
+  </div>
+  <div *ngIf="subcontractorContacts.length > 0 else noRecordToShow" class="row">
+    <div *ngFor="let jobContact of subcontractorContacts" class="col-4">
+      <srp-contact-type (onDeleteChange)="removeJobContact($event)" (dropdownChange)="dropdownChange.emit($event)" [jobContact]="jobContact"></srp-contact-type>
+    </div>
+  </div>
+</div>
+
+<ng-template #noRecordToShow>
+  <p class="alert alert-warning">No record to show at the moment ... </p>
+</ng-template>

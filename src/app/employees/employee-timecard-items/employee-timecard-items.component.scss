@@ -1,0 +1,191 @@
+.ibox-title {
+	.actions {
+		.buttons {
+			margin-top: 1rem;
+			text-align: right;
+			
+			p {
+				margin-bottom: 0;
+			}
+
+			.btn {
+				padding: 6px 10px;
+				font-size: 12px;
+			}
+		}
+		
+		.row-filter {
+			display: inherit;
+
+			.filter {
+				margin-top: 1rem;
+				display: inline-block;
+				padding-left: 0;
+			}
+		}
+	}
+}
+
+.overflow {
+	overflow: auto;
+}
+
+.lbl_on-call {
+	font-weight: bold;
+	color: orange;
+}
+
+.alert {
+	margin-bottom: 0;
+}
+
+.items-emergency {
+	position: relative;
+	top: 20px;
+}
+
+.items {
+
+	.item-controls {
+		font-size: 0.9rem;
+	}
+
+	.delete {
+		color: #d50000;
+	}
+
+	.on-call-container {
+		width: 30%;
+
+		input, label {
+			font-size: 1rem;
+		}
+
+		label {
+			margin-left: 5px;
+		}
+	}
+
+	.stat {
+		display: block;
+		overflow: auto;
+
+		.total-time {
+			width: 150px;
+		    display: inline-block;
+		    text-align: center;
+		    border: 1px solid #eceeef;
+		    padding: 0.2rem;
+			.value {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.fnt-bg {
+		font-size: 1.2rem;
+	}
+
+	.allocate-cost {
+	    position: relative;
+    	top: 2px;
+	}
+}
+
+table {
+
+	tr {
+
+		&.tr_total {
+			background-color: #eee;
+			input {
+				background-color: #eee !important;
+			}
+		}
+
+		td {
+			padding: 0.5rem !important;
+
+			&.row_total-hrs {
+				background-color: #eee;
+			}
+
+		}
+
+	}
+	
+
+
+	th {
+		text-align: center;
+	}
+
+	.bold {
+		td {
+			vertical-align: middle;
+
+			input {
+				font-weight: 700;
+				font-size: 1rem;
+				color: #676a6c;
+				padding: 0;
+		    }
+		}
+	}
+
+	.small-header {
+		width: 60px;
+	}
+
+	input[type="text"] {
+	    height: 30px;
+	    text-align: center;
+	    padding: 0.2rem;
+	}
+
+	.checkboxes-containter {
+		width: 4.5%;
+
+		.checkboxes {
+			height: 30px;
+			width: 100%;
+			margin-left: 30%;
+		}
+	}
+
+	.dates-input {
+		max-width: 100% !important;  
+		width: 100% !important;
+		padding: 0.25rem 0.37rem !important;
+		height: 30px;
+	}
+
+	select {
+		width: 100%;
+		height: 30px;
+	}
+
+	.total-hours, .total-cost {
+		font-size: 1rem;
+	}
+
+	.hours {
+		width: 70px;
+	}
+
+	.bold {
+		font-weight: 700;
+
+		.job-name {
+			font-size: 1rem;
+		}
+	}
+
+	input[readonly] {
+	    border: 0 !important;
+	    background: transparent;
+	    box-shadow: none;
+	    font-size: 0.9rem;
+	}
+
+}

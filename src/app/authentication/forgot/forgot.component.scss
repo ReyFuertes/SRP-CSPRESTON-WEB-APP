@@ -1,0 +1,87 @@
+.d-flex {
+	height: 100vh !important;
+}
+
+.forgot-form {
+	width: 70%;
+    margin: 0 auto;
+
+
+    .alert {
+        width: 80%;
+        margin: 10px auto;
+        font-size: 0.75rem;
+    }
+
+    .header {
+	    width: 80%;
+    	margin: 0 auto;
+
+    	img {
+    		width: 100%;
+    	}
+
+    	p {
+		    font-size: 12px;
+    	}
+    }
+
+    fieldset {
+    	width: 80%;
+	    margin: 0 auto;
+	    font-size: 12px;
+
+	    input {
+    	    height: 30px;
+    		font-size: 12px;
+	    }
+    }
+
+    .field-password {
+    	margin-top: 20px;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    button {
+    	margin-top: 10px;
+	    margin-left: 10%;
+    }
+}
+
+
+@media screen and(max-width: 425px){
+  .forgot-form {
+        width: 100%;
+        margin: 0 auto;
+
+
+        .alert {
+            width: 100%;
+        }
+
+        .header {
+            width: 100%;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+            }
+
+            p {
+                font-size: 12px;
+            }
+        }
+
+        fieldset {
+            width: 100%;
+        }
+
+        button {
+            margin-left: 0;
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,141 @@
+// Custom Variables
+//
+$transition-duration : 200ms !default;
+
+$sidebar-width : 13rem !default;
+$sidebar-small-menu-width : 5rem !default;
+
+$header-height : 3.5rem !default;
+$header-footer-height : ($header-height * 2) !default;
+
+$brand-dark : rgba(51, 51, 51, 1.00) !default;
+
+$font-weight-base : 400 !default;
+$font-weight-medium : 500 !default;
+$font-weight-bold : 600 !default;
+
+$sidebar-skin-background : rgba(51, 51, 51, 1.00) !default;
+$sidebar-skin-color : #a5a5a5 !default;
+$sidebar-skin-hover : rgb(255, 255, 255) !default;
+$sidebar-skin-brand-background : $sidebar-skin-background !default;
+$sidebar-skin-brand-color : #b2b6be !default;
+
+$header-skin-background : white !default;
+$header-skin-color : rgba(0, 0, 0, 0.87) !default;
+$header-skin-hover : #000000 !default;
+
+$spacer : 1rem;
+// Bootstrap Variables
+//
+
+$white : #ffffff !default;
+$black : #000000 !default;
+$red : #d9534f !default;
+$orange : #f0ad4e !default;
+$yellow : #ffd500 !default;
+$green : #5cb85c !default;
+$blue : #0275d8 !default;
+$teal : #5bc0de !default;
+$pink : #ff5b77 !default;
+$purple : #613d7c !default;
+
+$gray-dark : #292b2c !default;
+$gray : #464a4c !default;
+$gray-light : #636c72 !default;
+$gray-lighter : #eceeef !default;
+$gray-lightest : #f7f7f9 !default;
+
+$brand-primary : #0069aa;
+$brand-success : #a1c906;
+
+$brand-primary-default : map_get($mat-indigo, A700);
+$brand-success-default : map_get($mat-green, A700);
+$brand-info : map_get($mat-light-blue, A700);
+$brand-warning : map_get($mat-yellow, A700);
+$brand-danger : map_get($mat-red, A700);
+$brand-inverse : $gray-dark !default;
+
+$enable-rounded : true !default;
+$enable-shadows : true !default;
+$enable-gradients : true !default;
+$enable-transitions : true !default;
+$enable-hover-media-query : false !default;
+$enable-grid-classes : true !default;
+$enable-print-styles : true !default;
+
+$body-bg : #eeeef0 !default;
+//$body-bg:       #f5f5f5 !default;
+$body-color : rgba(0, 0, 0, 0.87) !default;
+$inverse-bg : $gray-dark !default;
+$inverse-color : $gray-lighter !default;
+
+$link-hover-decoration : none !default;
+
+$grid-gutter-width-base : 15px !default;
+
+$font-family-sans-serif : 'Arimo', Helvetica, sans-serif !default;
+$font-family-headers : $font-family-sans-serif;
+$font-family-serif : $font-family-sans-serif;
+$font-family-monospace : $font-family-sans-serif;
+$font-family-base : $font-family-sans-serif;
+
+$font-size-base : 1rem !default;
+$font-size-lg : 1.25rem !default;
+$font-size-sm : .875rem !default;
+$font-size-xs : .75rem !default;
+
+$border-radius : .125rem !default;
+$border-radius-lg : .25rem !default;
+$border-radius-sm : .0625rem !default;
+
+$card-spacer-y : 1rem !default;
+$card-border-width : 0 !default;
+$card-border-color : rgba($black, .06) !default;
+$card-cap-bg : white !default;
+
+$btn-padding-x : 1.5rem !default;
+$btn-padding-y : 0.532rem !default;
+
+$btn-padding-x-sm : 1.5rem !default;
+$btn-padding-y-sm : 0.282rem !default;
+
+$btn-padding-x-lg : 1.5rem !default;
+$btn-padding-y-lg : 1.032rem !default;
+
+$tab-content-background-color: #EEEEF0;
+
+$tabs-highlight-color : #bdc2c9;
+$tabs-highlight-font-color : #efefef;
+$tabs-color : #ffffff;
+$tabs-font-color : #74777b;
+$tabs-current-color : #0069aa;
+$tabs-current-font-color : #efefef;
+$tabs-font-size : 1.25rem;
+$tabs-border-radius : 18px;
+
+$select-color : #676a6c;
+$select-background : #ffffff;
+$select-focus-color : #000000;
+$select-focus-background : #ededed;
+$select-disabled-opacity : 0.5;
+$select-arrow-color : #7b7b7b;
+$select-arrow-focus-color : $brand-primary;
+$select-arrow-disabled-color : #cccccc;
+
+$control-input-font-size: 0.8571rem;
+$control-input-margin-bottom: 8px;
+$control-input-padding-left: 30px;
+$control-input-indicator-width: 20px;
+$control-input-indicator-height: 20px;
+$control-input-indicator-background-color: #e6e6e6;
+$control-input-indicator-border-radius: 3px;
+$control-input-indicator-background-color-on-hover: #cccccc;
+$control-input-disabled-background-color: #e6e6e6;
+$control-input-disabled-opacity: 0.6;
+$control-input-checkmark-color: #ffffff;
+
+
+$tab-component-border-bottom-color: rgba(0,0,0,0.4);
+$tab-component-active-element-border-color: rgba(0,0,0,0.4);
+$tab-component-active-element-border-bottom-color: #EEEEF0;
+$tab-component-element-background-color: #EEEEF0;

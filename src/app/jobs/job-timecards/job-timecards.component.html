@@ -1,0 +1,47 @@
+<!-- <app-job-detail *ngIf="showJobDetails" [job]="job"></app-job-detail> -->
+
+<ibox-panel [breadcrumbs]="breadcrumbs" *ngIf="!listOfJobs && !showJobDetails">
+  <ng-container class="heading">
+      List of Timecards
+  </ng-container>
+
+  <ng-container class="heading-aside">
+    <div class="text-right"><button class="btn btn-primary back" (click)="getJobDetails(job)">Back</button></div>
+  </ng-container>
+
+  <ng-container class="body">
+
+    <table class="table table-bordered" *ngIf="timecards.length > 0">
+      <thead>
+        <tr>
+          <th>Job Employee</th>
+          <th>Rate Type</th>
+          <th>Line Item</th>
+          <th>Hours</th>
+          <th>Emergency Pay</th>
+          <th>Date of Labor</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of timecards">
+          <td>{{ (item.time_card.hasOwnProperty('contact')) ? item.time_card.contact.name : '' }}</td>
+          <td>{{ (item.rate_type.hasOwnProperty('name')) ? item.rate_type.name : '' }}</td>
+          <td>{{ (item.hasOwnProperty('line_item') && item.line_item.hasOwnProperty('name')) ? item.line_item.name : '' }}</td>
+          <td>{{ item.hours }}</td>
+          <td>{{ item.is_emergency_pay ? 'Yes' : '' }}</td>
+          <td>{{ item.date_of_labor }}</td>
+          <td><p class="text-center bg-info">{{item.status}}</p></td>
+          <td>
+          <button type="button" (click)="getDocuments(job)" class="btn btn-sm btn-primary get-docs"> <i class="fa fa-files-o"></i> Approve </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="alert alert-info" *ngIf="!loading && timecards.length === 0">No time cards to show ... </p>
+    <p class="alert alert-info" *ngIf="loading">Loading time cards. Please wait ... </p>
+
+  </ng-container>
+
+</ibox-panel>

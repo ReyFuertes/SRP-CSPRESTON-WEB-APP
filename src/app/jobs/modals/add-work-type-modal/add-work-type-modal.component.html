@@ -1,0 +1,23 @@
+<ng-template #modal let-close="close" let-dismiss="dismiss">
+  <form [formGroup]="workTypeForm" (ngSubmit)="close(true)">
+    <div class="modal-header">
+      <h4 class="modal-title">Add Work Type</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row mt-3">
+        <div class="col-10 offset-1">
+          <div class="form-group row align-items-center">
+            <label for="jobType" class="col-5 col-form-label">Name the Work Type:</label>
+            <div class="col-7">
+              <input type="text" autofocus class="form-control" placeholder="" id="jobType" formControlName="name">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer clearfix">
+      <button type="submit" class="btn btn-success btn-sm" [disabled]="!workTypeForm.valid">Save</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="close(false)">Close</button>
+    </div>
+  </form>
+</ng-template>

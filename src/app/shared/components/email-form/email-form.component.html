@@ -1,0 +1,41 @@
+<div class="body-container">
+    <div class="card">
+        <div class="card-body">
+            <div *ngIf="emails.length > 0">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr *ngFor="let email of emails; index as ei">
+                            <td>({{ email.type }})</td>
+                            <td>{{ email.email }}</td>
+                            <td>
+                                <button (click)="removeEmail(ei)" class="btn btn-danger btn-sm pull-right">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="emails.length === 0">
+                Not Set
+            </div>
+        </div>
+        <div class="card-footer" [formGroup]="emailFormGroup">
+            <div class="input-group" [class.has-danger]="!isEmailValid() && isEmailFieldDirty()">
+                <div class="input-group-prepend select">
+                    <select class="form-control" #eType>
+                        <option *ngFor="let emailType of emailTypes" [value]="emailType.id">{{emailType.name}}</option>
+                    </select>
+                    <div class="select__arrow"></div>
+                </div>
+                <input id="emails" type="text" #email class="form-control" formControlName="emailAddr" (keyup.enter)="addNewEmail(eType, email)" placeholder="Email Address">
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-flat" (click)="addNewEmail(eType, email)">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

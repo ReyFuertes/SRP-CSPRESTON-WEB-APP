@@ -1,0 +1,23 @@
+<div class="jobs-box-holder">
+  <ibox-panel [breadcrumbs]="breadcrumbs">
+    <ng-container class="heading">{{title}}</ng-container>
+    <ng-container class="body">
+      <p-tabMenu [ngClass]="'job-tabs'" [model]="tabItems" [activeItem]="activeTabItem"></p-tabMenu>
+
+      <div class="col-12" class="srp_border-gray job-content-container">
+        <srp-job-customer-information *ngIf="contacts" [contactRoles]="contactRoles" [isNew]="isNew" [jobInfo]="jobInfo" [jobContacts]="contacts"
+          (customerJobChange)="job = $event" [isVisible]="isActiveStep(1)" (tabChange)="changeTab($event)" (onChangeErrors)="onChangeErrors($event)">
+        </srp-job-customer-information>
+
+        <srp-job-information *ngIf="jobInfo" [isNew]="isNew" [jobInfo]="jobInfo" (jobInformationChange)="job = $event" [paymentTerms]="paymentTerms"
+          [isVisible]="isActiveStep(2)" (tabChange)="changeTab($event)" (onChangeErrors)="onChangeErrors($event)">
+        </srp-job-information>
+
+        <srp-job-contacts-information *ngIf="jobInfo && contacts" [isNew]="isNew" [jobInfo]="jobInfo" [contacts]="contacts" (jobInformationChange)="job = $event"
+          [contactRoles]="contactRoles" [employeeRoles]="employeeRoles" [subcontratorRoles]="subcontratorRoles" [isVisible]="isActiveStep(3)"
+          (tabChange)="changeTab($event)" [hasInvalidFields]="hasErrors" >
+        </srp-job-contacts-information>
+      </div>
+    </ng-container>
+  </ibox-panel>
+</div>

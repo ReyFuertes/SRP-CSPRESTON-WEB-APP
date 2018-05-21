@@ -1,0 +1,152 @@
+.kanban-board {
+  width      : 100%;
+  margin-top : 0 !important;
+
+  .kanban-board-column {
+    border-right : 2px solid #cccccc;
+    overflow-x   : visible;
+    overflow-y   : visible;
+
+    &:last-of-type {
+      border-right : none;
+    }
+
+    .kanban-board-column-header {
+      border-bottom : 2px solid #cccccc;
+      margin-bottom : 5px;
+      padding-top   : 10px;
+      background    : $brand-primary;
+      color         : $white;
+      &.double-header{
+        @include fixed-height(72px);
+      }
+    }
+    .scroll-container {
+      @include fixed-height(67vh);
+      &.isDragging {
+        overflow-x : visible !important;
+        overflow-y : visible !important;
+      }
+      padding    : 3px;
+      transition : padding 500ms;
+      &.ps--active-y, &.ps--active-x {
+        padding-right : 20px !important;
+      }
+      .ps__scrollbar-y-rail, .ps__scrollbar-x-rail, .ps__scrollbar-y, .ps__scrollbar-x {
+        transition : display 500ms, opacity 500ms;
+      }
+    }
+  }
+}
+
+kanban-card {
+  width    : calc(100% - 10px);
+  z-index  : 999;
+  margin   : 0 auto;
+  position : relative;
+  transition: all 500ms;
+
+  .kanban-card {
+    border                : 1px solid transparent;
+    min-height            : 50px;
+    display               : flex;
+    flex-direction        : column;
+    flex-wrap             : nowrap;
+    justify-content       : flex-start;
+    align-items           : flex-start;
+    align-content         : center;
+    padding               : 5px 10px 10px;
+    -webkit-border-radius : 3px; -moz-border-radius : 3px; border-radius : 3px;
+    margin-bottom         : 15px;
+
+    &:hover {
+      cursor : all-scroll;
+    }
+
+    .kanban-card-title {
+      font-size   : 1.1em;
+      font-weight : 600;
+    }
+
+    .kanban-card-content {
+      margin-top : 10px;
+
+      ul {
+        list-style-type : none;
+        padding-left    : 1em;
+
+        li {
+
+          &:before {
+            content : "- ";
+          }
+        }
+      }
+    }
+
+    &:last-of-type {
+      margin-bottom : 5px;
+    }
+
+    &.kanban-type-info {
+      border     : 1px solid rgba(darken($brand-info, 10%), 0.8);
+      background : rgba(lighten($brand-info, 10%), 0.1);
+      @include box-shadow-sm(rgba($brand-info, 0.2));
+    }
+
+    &.kanban-type-success {
+      border     : 1px solid rgba(darken($brand-success, 10%), 0.8);
+      background : rgba(lighten($brand-success, 10%), 0.1);
+      @include box-shadow-sm(rgba($brand-success, 0.2));
+    }
+
+    &.kanban-type-primary {
+      border     : 1px solid rgba(darken($brand-primary, 10%), 0.8);
+      background : rgba(lighten($brand-primary, 10%), 0.1);
+      @include box-shadow-sm(rgba($brand-primary, 0.2));
+    }
+
+    &.kanban-type-warning {
+      border     : 1px solid rgba(darken($brand-warning, 10%), 0.8);
+      background : rgba(lighten($brand-warning, 10%), 0.1);
+      @include box-shadow-sm(rgba($brand-warning, 0.2));
+    }
+
+    &.kanban-type-danger {
+      border     : 1px solid rgba(darken($brand-danger, 10%), 0.8);
+      background : rgba(lighten($brand-danger, 10%), 0.1);
+      @include box-shadow-sm(rgba($brand-danger, 0.2));
+    }
+  }
+
+  &.isDragging {
+    z-index : 1000;
+    transition: none;
+    .kanban-card {
+      &.kanban-type-info {
+        border     : 2px dashed rgba(darken($brand-info, 10%), 1.0);
+        background : rgba(lighten($brand-info, 10%), 1.0);
+      }
+
+      &.kanban-type-success {
+        border     : 2px dashed rgba(darken($brand-success, 10%), 1.0);
+        background : rgba(lighten($brand-success, 10%), 1.0);
+      }
+
+      &.kanban-type-primary {
+        border     : 2px dashed rgba(darken($brand-primary, 10%), 1.0);
+        background : rgba(lighten($brand-primary, 10%), 1.0);
+      }
+
+      &.kanban-type-warning {
+        border     : 2px dashed rgba(darken($brand-warning, 10%), 1.0);
+        background : rgba(lighten($brand-warning, 10%), 1.0);
+      }
+
+      &.kanban-type-danger {
+        border     : 2px dashed rgba(darken($brand-danger, 10%), 1.0);
+        background : rgba(lighten($brand-danger, 10%), 1.0);
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.filter {
+	select {
+		width: 100px;
+		display: inline-block;
+	}
+
+	select[name="weekRange"] {
+		width: 300px;
+	}
+}
+
+.enter-timecard {
+	padding: 0.5rem 0.6rem;
+}
+
+table.timecards {
+	margin-top: 10px;
+	tr {
+		td {
+			vertical-align: middle;
+		}
+	}
+}

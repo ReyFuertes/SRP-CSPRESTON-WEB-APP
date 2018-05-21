@@ -1,0 +1,21 @@
+<div class="srp_card card">
+  <i class="fa fa-times-circle fa-2x close" pTooltip="Remove" (click)="removeJobContact(jobContact)" aria-hidden="true"></i>
+  <srp-dropdown-selector [isNew]="false" [filterId]="jobContact.contact_id" (selectItemChange)="handleChange($event)" [dropdownListItems]="jobContact.contacts">
+  </srp-dropdown-selector>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Phone</td>
+        <td>{{ jobContact.phones ? mapToPhoneToString(jobContact.phones) : ''  }}</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>{{ jobContact.emails ? mapToEmailToString(jobContact.emails) : '' }}</td>
+      </tr>
+      <tr>
+        <td>Sub Role</td>
+        <td>{{jobContact.role_value}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

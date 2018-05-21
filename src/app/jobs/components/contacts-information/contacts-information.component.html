@@ -1,0 +1,56 @@
+<app-notifications></app-notifications>
+<div class="row" [hidden]="!isVisible">
+  <div class="col-12 contact-information-container">
+    <div class="row align-items-center">
+      <div class="col-8">
+        <h4 class="pull-left mt-3">Contacts</h4>
+      </div>
+      <div class="col-4 text-right">
+        <button type="button" class="btn btn-primary" (click)="onTabChange(prevTabIndex)">Back</button>
+        <button type="button" class="btn btn-success" (click)="onFinish()">
+            Finish
+        </button>
+      </div>
+    </div>
+    <hr>
+
+    <div class="col-12 step-last">
+      <div class="row">
+        <div class="col-12 text-center">
+          <button class="btn btn-sm btn-primary" (click)="display = true">
+            <i class="fa fa-plus"></i> Add contact</button>
+        </div>
+      </div>
+      <div class="col-12">
+        <srp-contact-type-list [contacts]="contacts" [jobInfo]="jobInfo" [employeeRoles]="employeeRoles" (dropdownChange)="handleItemChange($event)" [jobContacts]="jobContacts"></srp-contact-type-list>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="display" [modal]="true" [positionTop]="200" [width]="500">
+  <p-header>New contact</p-header>
+  <div *ngIf="contactTypeData" class="form-group">
+    <label>Contact Type</label>
+    <srp-dropdown-selector [isDefaultFirstItem]="true" (selectItemChange)="onSelectCustType($event.value)" [dropdownListItems]="contactTypeData">
+    </srp-dropdown-selector>
+  </div>
+  <div *ngIf="subRoleDrpItems" class="form-group">
+    <label>Subrole</label>
+    <srp-dropdown-selector [isDefaultFirstItem]="true" (selectItemChange)="empCustSubRole = $event" [dropdownListItems]="subRoleDrpItems">
+    </srp-dropdown-selector>
+  </div>
+  <div *ngIf="filteredContacts.length > 0" class="form-group">
+    <label>Contact</label>
+    <srp-search-selector [ngStyle]="{ 'width': '100%' }" [placeholder]="'Search Contact'" (inputValueChange)="contactId = $event?.id"
+      [items]="filteredContacts">
+    </srp-search-selector>
+  </div>
+  <p-footer>
+    <div class="btn-group">
+      <button type="submit" class="btn btn-success" [disabled]="!contactId" (click)="addContact()">
+        <i class="fa fa-plus"></i> Add</button>
+      <button type="button" class="btn btn-default" (click)="display = false">Close</button>
+    </div>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,85 @@
+.ibox-content h1,
+.ibox-content h2,
+.ibox-content h3,
+.ibox-content h4,
+.ibox-content h5,
+.ibox-title h1,
+.ibox-title h2,
+.ibox-title h3,
+.ibox-title h4,
+.ibox-title h5 {
+  margin-top: 5px;
+}
+.ibox {
+  clear: both;
+  margin-bottom: 25px;
+  margin-top: 0;
+  padding: 0;
+  color: #676a6c;
+  font-size: 0.8571rem;
+
+  .ibox-heading {
+    background-color: #f3f6fb;
+    border-bottom: none;
+    h3 {
+      font-weight: 200;
+      font-size: 24px;
+    }
+    h5 {
+      display: inline-block;
+      font-size: 14px;
+      margin: 0 0 7px;
+      padding: 0;
+      text-overflow: ellipsis;
+      float: left;
+    }
+  }
+
+  .ibox-title {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #fdfbfb;
+    border: none;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 5px;
+    min-height: 25px;
+  }
+  .ibox-content {
+    background-color: #fdfbfb;
+    color: inherit;
+    padding: 15px 20px 20px 20px;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+    clear: both;
+
+    .alert {
+      display: block;
+      width: 100%;
+    }
+  }
+  .ibox-footer {
+    color: inherit;
+    border-top: 1px solid #e7eaec;
+    font-size: 90%;
+    background: #ffffff;
+    padding: 10px 15px;
+  }
+
+  .form-contro {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+  }
+
+}

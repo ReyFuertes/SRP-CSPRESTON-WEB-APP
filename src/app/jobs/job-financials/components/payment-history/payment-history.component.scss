@@ -1,0 +1,29 @@
+th {
+    color: #676a6c !important;
+    font-weight: normal !important;
+}
+
+td {
+	color: #676a6c;
+}
+
+.action {
+	padding: 0 !important;
+
+	.btn-add, .btn-make {
+		width: 49%;
+		max-width: 49%;
+	}
+}
+
+.dropdown-options {
+    i {
+        cursor: pointer;
+    }
+
+    .dropdown-item {
+        font-size: 0.8571rem;
+        color: #676a6c;
+        text-transform: capitalize;
+    }
+}

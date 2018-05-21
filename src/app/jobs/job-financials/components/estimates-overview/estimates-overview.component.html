@@ -1,0 +1,180 @@
+<div class="card">
+    <div class="card-header">
+        Estimates Overview
+
+        <div class="btn-group dropdown-options">
+            <i class="fa fa-ellipsis-v fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-hidden="true"></i>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" (click)="onViewTypeChange('grid')">Grid View</a>
+                <a class="dropdown-item" (click)="onViewTypeChange('tab')">Tab View</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+
+
+            <div class="row">
+                <p class="alert alert-warning col-12" *ngIf="estimates.length === 0">No estimates at the moment.</p>
+            </div>
+
+            <div class="row" *ngIf="estimates.length > 0">
+
+                <div class="col-12 totals" *ngIf="viewType === 'tab'">
+                    <ngb-tabset class="tabset">
+                    <ngb-tab *ngFor="let estimate of estimates" title="{{ estimate.name }}" style="font-size: 0.75rem;">
+                        <ng-template ngbTabContent>
+                        <div class="estimates">
+
+                            <div class="actions pull-right mt-2">
+                                <button type="submit" class="btn btn-primary" *ngIf="isPending(estimate)" (click)="onApproveEstimate(estimate)">Approve</button>
+                                <button type="submit" class="btn btn-primary" *ngIf="isPending(estimate)" (click)="onDisapproveEstimate(estimate)">Disapprove</button>
+                                <button type="submit" class="btn btn-primary" (click)="onCreateInvoice(estimate)" *ngIf="isApproved(estimate)">Request Invoice</button>
+                                <button type="submit" class="btn btn-primary">Cost Details</button>
+                                <button type="submit" class="btn btn-primary" (click)="showTimeCards(job)">Crew Timecards</button>
+                                <button type="submit" class="btn btn-primary">Vendor Invoices</button>
+                            </div>
+
+                            <br /><br /><br />
+                            <h3>
+                            Estimate, Budget & Cost Line Items
+                            </h3>
+
+                            <p class="estimate-status alert alert-info text-center mb-4">
+                            {{ estimate.status }}
+                            </p>
+
+
+                            <div class="amount-actions">
+                            <div class="amount">
+                                <div class="amount-1">
+                                    <div class="row">
+                                        <div class="col-6 col-xl-5 text-muted mb-3">Estimate</div>
+                                        <div class="col-6 col-xl-7 mb-3">{{ estimate.estimate_amount | currency:"$" }}</div>
+
+                                        <div class="col-6 col-xl-5 text-muted mb-3">Budget</div>
+                                        <div class="col-6 col-xl-7 mb-3">{{ estimate.budget_amount | currency:"$" }}</div>
+
+                                        <div class="col-6 col-xl-5 text-muted mb-3">Cost To Date</div>
+                                        <div class="col-6 col-xl-7 mb-3">{{ estimate.cost_to_date | currency:"$" }}</div>
+
+                                        <div class="col-6 col-xl-5 text-muted mb-3">Budget Remaining</div>
+                                        <div class="col-6 col-xl-7 mb-3">{{ estimate.budget_remaining | currency:"$" }}</div>
+
+                                        <div class="col-6 col-xl-5 text-muted mb-3">Forecasted Margin</div>
+                                        <div class="col-6 col-xl-7 mb-3">{{ estimate.forecasted_margin | currency:"$" }}</div>
+
+                                        <div class="col-6 col-xl-5 text-muted mb-3">Running Margin</div>
+                                        <div class="col-6 col-xl-7 mb-3">{{ estimate.running_margin | currency:"$" }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </div>
+                            <table class="table table-bordered table-estimate" *ngIf="estimate.fixed_bid_items && estimate.fixed_bid_items.length">
+                            <thead>
+                                <tr>
+                                <th>Cost Type</th>
+                                <th>Line Item</th>
+                                <th>Estimate</th>
+                                <th>Budget</th>
+                                <th>Margin</th>
+                                <th>Actual Cost</th>
+                                <th>Pending Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let fixedBid of estimate.fixed_bid_items">
+                                <td>{{ fixedBid.cost_type.name }}</td>
+                                <td>{{ fixedBid.line_item.name }}</td>
+                                <td>${{ fixedBid.estimate_amount }}</td>
+                                <td>${{ fixedBid.budget }}</td>
+                                <td>{{ fixedBid.margin }}%</td>
+                                <td>${{ fixedBid.actual_cost }}</td>
+                                <td>${{ fixedBid.pending_cost }}</td>
+                                </tr>
+                            </tbody>
+                            </table>
+
+                            <table class="table table-bordered table-estimate" *ngIf="estimate.time_material_items && estimate.time_material_items.length">
+                            <thead>
+                                <tr>
+                                <th>Cost Type</th>
+                                <th>Line Item</th>
+                                <th>Actual Billable</th>
+                                <th>Running Billable</th>
+                                <th>Margin</th>
+                                <th>Budget</th>
+                                <th>Actual Cost</th>
+                                <th>Pending Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let timeMaterial of estimate.time_material_items">
+                                <td>{{ timeMaterial.cost_type.name }}</td>
+                                <td>{{ timeMaterial.line_item.name }}</td>
+                                <td>${{ timeMaterial.actual_billable }}</td>
+                                <td>${{ timeMaterial.running_billable }}</td>
+                                <td>{{ timeMaterial.margin }}%</td>
+                                <td>${{ timeMaterial.budget }}</td>
+                                <td>${{ timeMaterial.actual_cost }}</td>
+                                <td>${{ timeMaterial.pending_cost }}</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        </ng-template>
+                    </ngb-tab>
+                    </ngb-tabset>
+
+                                </div>
+                    </div>
+
+            <div *ngIf="viewType === 'grid'" class="row">
+                <div class="col-md-3 col-12 pr-1" *ngFor="let estimate of estimates">
+                    <div class="card estimate" >
+                        <div class="card-header">
+                            <div>
+                                {{ estimate.name }}
+                                <span class="badge badge-info">{{ estimate.status }}</span>
+                            </div>
+
+                            <div class="btn-group dropdown-options">
+                                <i class="fa fa-ellipsis-v fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-hidden="true"></i>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" (click)="onEdit(estimate)">Edit Estimate</a>
+                                    <a class="dropdown-item" (click)="onDelete(estimate)">Delete Estimate</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 col-xl-5 text-muted mb-3">Estimate</div>
+                                <div class="col-6 col-xl-7 mb-3">{{ estimate.estimate_amount | currency:"$" }}</div>
+
+                                <div class="col-6 col-xl-5 text-muted mb-3">Budget</div>
+                                <div class="col-6 col-xl-7 mb-3">{{ estimate.budget_amount | currency:"$" }}</div>
+
+                                <div class="col-6 col-xl-5 text-muted mb-3">Cost To Date</div>
+                                <div class="col-6 col-xl-7 mb-3">{{ estimate.cost_to_date | currency:"$" }}</div>
+
+                                <div class="col-6 col-xl-5 text-muted mb-3">Budget Remaining</div>
+                                <div class="col-6 col-xl-7 mb-3">{{ estimate.budget_remaining | currency:"$" }}</div>
+
+                                <div class="col-6 col-xl-5 text-muted mb-3">Forecasted Margin</div>
+                                <div class="col-6 col-xl-7 mb-3">{{ estimate.forecasted_margin | currency:"$" }}</div>
+
+                                <div class="col-6 col-xl-5 text-muted mb-3">Running Margin</div>
+                                <div class="col-6 col-xl-7 mb-3">{{ estimate.running_margin | currency:"$" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+    </div>
+</div>

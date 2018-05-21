@@ -1,0 +1,82 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+    <ng-container class="heading">List of Line Items</ng-container>
+    <ng-container class="heading-aside">
+      <div class="text-right">
+          <button (click)="onCreateCategory()" type="button" class="btn btn-sm btn-success add"> <i class="fa fa-plus"></i> Add New</button>
+      </div>
+    </ng-container>
+    <ng-container class="body">
+      <p-table [columns]="cols" [value]="categories">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>Name</th>
+                <th style="width: 20%;">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-c>
+          <tr>
+              <td>{{ c.name }}</td>
+              <td style="text-align: center;">
+                  <button (click)="onEditCategory(c)" type="button" class="btn btn-sm btn-primary"> <i class="fa fa-pencil"></i> Edit</button>
+              <button (click)="onDeleteCategory(c)" type="button" class="btn btn-sm btn-danger"> <i class="fa fa-trash"></i> Delete</button>
+              </td>
+          </tr>
+        </ng-template>
+    </p-table>
+    </ng-container>
+</ibox-panel>
+
+<ng-template #createModal let-close="close">
+  <form class="form-horizontal" [formGroup]="createCategoryForm" (submit)="createCategory()">
+    <div class="modal-header">
+      <h4 class="modal-title" style="font-size: 1rem;">Create Work Type</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div>
+          <input type="text" name="name" formControlName="name" class="form-control" autofocus>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer clearfix">
+      <button type="button" class="btn btn-danger btn-sm" (click)="closeCreate()">Cancel</button>
+      <button type="submit" class="btn btn-success btn-sm" [disabled]="!createCategoryForm.valid">Submit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #editModal let-close="close">
+  <form class="form-horizontal" #updateCategoryForm="ngForm" (submit)="updateCategory(updateCategoryForm)">
+    <div class="modal-header">
+      <h4 class="modal-title" style="font-size: 1rem;">Edit Work Type</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div>
+          <input type="text" name="name" class="form-control" [ngModel]="category.name" autofocus>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer clearfix">
+      <button type="button" class="btn btn-danger btn-sm" (click)="close()">Cancel</button>
+      <button type="submit" class="btn btn-success btn-sm">Submit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #deleteModal let-close="close">
+    <form class="form-horizontal" #deleteCategoryForm="ngForm" (submit)="deleteCategory(deleteCategoryForm)">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Damage Type</h4>
+      </div>
+      <div class="modal-body">
+        <p class="alert alert-danger">Are you sure you want to delete this?</p>
+      </div>
+      <div class="modal-footer clearfix">
+        <button type="button" class="btn btn-danger btn-sm" (click)="closeDelete()">Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm">Submit</button>
+      </div>
+    </form>
+</ng-template>

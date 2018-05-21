@@ -1,0 +1,61 @@
+.row-filter {
+
+	.filter {
+		.select2-selection--single {
+			line-height: 1.4;
+			padding: 6px 10px;
+			font-size: 12px;
+			height: 30px;
+		}
+	}
+}
+
+.timecard-container {
+	.select2-container {
+		margin-bottom: 10px;
+	}
+}
+
+.review-timecard-container {
+	.update {
+		color: #0091ea !important;
+	}
+}
+
+#allocateEstimate {
+	.form-group {
+		overflow: auto;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+		.name {
+			font-size: 1.2em;
+		}
+		
+		.details {
+			overflow: auto;
+		}
+
+		.hours {
+			overflow: auto;
+
+			.input {
+				overflow: auto;
+			}
+
+			.cost-label {
+				overflow: auto;
+				margin-top: 2.5em;
+			}
+		}
+
+		label {
+			display: block;
+		}
+	}
+}
+
+.timecard-tabs {
+	.ui-widget-content {
+		background: #fdfbfb !important;
+	}
+}

@@ -1,0 +1,21 @@
+<div class="srp_card card">
+  <srp-dropdown-selector [validateSelector]="false" [isNew]="false" (selectItemChange)="handleChange($event)"
+    [dropdownListItems]="contacts">
+  </srp-dropdown-selector>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Phone</td>
+        <td>{{ jobContact.phones ? mapToPhoneToString(jobContact.phones) : '' }}</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>{{ jobContact.emails ? mapToEmailToString(jobContact.emails) : '' }}</td>
+      </tr>
+      <tr>
+        <td>Sub Role</td>
+        <td>{{role.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

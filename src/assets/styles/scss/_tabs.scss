@@ -1,0 +1,154 @@
+.srp-tabs {
+  width         : 100%;
+  min-width     : 400px;
+  border-bottom : 4px solid $tabs-current-color;
+  //border-top : 3px solid $tabs-current-color;
+  overflow      : hidden;
+  transition    : border 250ms ease;
+  margin        : 0.1rem auto 5px;
+  padding-top   : 0.25rem;
+}
+
+.srp-tabs ul {
+  margin          : 0;
+  overflow        : hidden;
+  float           : left;
+  padding         : 0 0 0 40px;
+  list-style-type : none;
+}
+
+.srp-tabs ul * {
+  margin  : 0;
+  padding : 0;
+}
+
+.srp-tabs ul li {
+  display          : block;
+  float            : right;
+  padding          : 10px 24px 8px;
+  background-color : $tabs-color;
+  margin-right     : 46px;
+  z-index          : 2;
+  position         : relative;
+  cursor           : pointer;
+  color            : $tabs-font-color;
+  text-transform   : uppercase;
+  transition       : all 250ms ease;
+  font-size        : 0.7143rem !important;
+  line-height      : 0.8rem;
+}
+
+.srp-tabs ul li:before,
+.srp-tabs ul li:after {
+  display          : block;
+  content          : " ";
+  position         : absolute;
+  top              : 0;
+  height           : 100%;
+  width            : 44px;
+  background-color : $tabs-color;
+  transition       : all 250ms ease;
+}
+
+.srp-tabs ul li:before {
+  right      : -24px;
+  transform  : skew(15deg, 0deg);
+  box-shadow : rgba(0, 0, 0, .1) 3px 2px 5px, inset rgba(255,255,255,.09) -1px 0;
+}
+
+.srp-tabs ul li:after {
+  left       : -24px;
+  transform  : skew(-15deg, 0deg);
+  box-shadow : rgba(0,0,0,.1) -3px 2px 5px, inset rgba(255, 255, 255, .09) 1px 0;
+}
+
+.srp-tabs ul li:hover,
+.srp-tabs ul li:hover:before,
+.srp-tabs ul li:hover:after {
+  background-color : $tabs-highlight-color;
+  color            : $tabs-highlight-font-color;
+}
+
+.srp-tabs ul li.active {
+  z-index : 3;
+}
+
+.srp-tabs ul li.active,
+.srp-tabs ul li.active:before,
+.srp-tabs ul li.active:after {
+  background-color : $tabs-current-color;
+  color            : $tabs-current-font-color;
+}
+
+/* Round Tabs */
+.srp-tabs.round ul li {
+  border-radius : $tabs-border-radius $tabs-border-radius 0 0;
+}
+
+.srp-tabs.round ul li:before {
+  border-radius : 0 $tabs-border-radius 0 0;
+}
+
+.srp-tabs.round ul li:after {
+  border-radius : $tabs-border-radius 0 0 0;
+}
+
+.tab-close-icon {
+  position : absolute;
+  right    : -8%;
+  top      : 10%;
+  &:hover {
+    color : #000000;
+  }
+}
+
+.theme-light {
+  .nav-tabs {
+    border-bottom-color : $tab-component-border-bottom-color;
+  }
+}
+
+.nav-tabs {
+  .nav-link {
+    background-color    : $tab-component-element-background-color;
+    border-top-color    : $tab-component-active-element-border-color;
+    border-right-color  : $tab-component-active-element-border-color;
+    border-bottom-color : transparent !important;
+    border-radius       : 0 !important;
+    color               : $black;
+    &:hover {
+      border-top-color    : $brand-primary !important;
+      border-right-color  : $brand-primary !important;
+      border-bottom-color : transparent !important;
+      color               : $black !important;
+      background-color    : lighten($tab-component-element-background-color, 2%);
+      cursor              : pointer;
+    }
+    &.active {
+      border-color        : $tab-component-active-element-border-color !important;
+      border-bottom-color : $tab-component-active-element-border-bottom-color !important;
+      background-color    : $brand-primary !important;
+      color               : $white !important;
+      &:hover {
+        border-color        : $tab-component-active-element-border-color !important;
+        border-bottom-color : $tab-component-active-element-border-bottom-color !important;
+        color               : $white !important;
+        cursor              : not-allowed;
+      }
+    }
+    &:first-of-type {
+      border-left-color : $tab-component-active-element-border-color;
+      &:hover {
+        border-left-color : $brand-primary !important;
+      }
+    }
+  }
+}
+
+ngb-tabset {
+  .tab-pane {
+    min-height : 42vh;
+    max-height : 42vh;
+    height     : 42vh;
+  }
+}

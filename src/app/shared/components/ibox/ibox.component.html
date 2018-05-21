@@ -1,0 +1,19 @@
+<srp-breadcrumbs [breadcrumbs]="breadcrumbs" ></srp-breadcrumbs>
+<app-notifications></app-notifications>
+
+<div class="ibox srp_card">
+  <div class="row">
+    <ng-content select=".tab"></ng-content>
+  </div>
+  <div class="ibox-title row">
+    <div class="col-6">
+      <h2 class="title">
+        <ng-content select=".heading"></ng-content>
+      </h2>
+    </div>
+    <div class="col-6">
+      <ng-content select=".heading-aside"></ng-content>
+    </div>
+  </div>
+  <ng-content select=".body"></ng-content>
+</div>

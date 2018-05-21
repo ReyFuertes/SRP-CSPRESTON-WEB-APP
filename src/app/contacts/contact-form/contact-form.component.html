@@ -1,0 +1,259 @@
+<ibox-panel [breadcrumbs]="breadcrumbs">
+    <ng-container class="heading">{{ formType }} {{ formTitle }}</ng-container>
+    <ng-container class="heading-aside">
+        <div class="float-right">
+            <label class="control success control--checkbox" for="active"><span class="is-active">Active</span>
+                <input type="checkbox" id="active" [(ngModel)]="contact.is_active" [ngModelOptions]="{standalone: true}" [checked]="contact.is_active" />
+                <div class="control__indicator"></div>
+            </label>
+        </div>
+    </ng-container>
+    <ng-container class="body">
+        <div class="body-container">
+
+            <div class="row input-fields">
+
+                <div class="col-12 col-md-6 column" [formGroup]="basicInfoFormGroup">
+                    <div class="form-group">
+                        <div class="form-inline form-inline-custom">
+                            <div *ngFor="let ct of contactTypes" class="form-check mb-2 mr-sm-2">
+                                <input name="contact_type" [checked]="contact.contact_type === ct.id" class="form-check-input" [value]="ct.id" #ctOption (click)="setContactType(ctOption.value)" type="radio" [attr.id]="ct.id">
+                                <label class="form-check-label" [attr.for]="ct.id">
+                                    {{ ct.name }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Contact Type</label>
+                        <div class="select">
+                            <select2 [options]="contactRoles" [(ngModel)]="contact.type_id" [ngModelOptions]="{standalone: true}"></select2>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="isPerson()">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="contact.firstName" formControlName="firstName" id="firstName">
+                    </div>
+
+                    <div class="form-group" *ngIf="isPerson()">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="contact.lastName" formControlName="lastName" id="lastName">
+                    </div>
+
+                    <div class="form-group" *ngIf="isPerson()">
+                        <label for="company">Company</label>
+                        <div>
+                            <div class="mt-2 select">
+                                <select2 [options]="companyLists" [(ngModel)]="companyId" [ngModelOptions]="{standalone: true}"></select2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="isCompany()">
+                        <label for="company-name">Company Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="contact.companyName" formControlName="companyName" id="company-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="display-name">Display Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="contact.name" formControlName="displayName" id="display-name">
+                    </div>
+
+
+                    <div class="form-group" *ngIf="isCompany()">
+                        <label for="website">Website</label>
+                        <input type="text" class="form-control" [(ngModel)]="contact.website" formControlName="website" id="website">
+                    </div>
+
+                    <div class="form-group" *ngIf="isPerson()">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" [(ngModel)]="contact.title" formControlName="contactTitle" id="title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea rows="7" class="form-control" id="notes" [(ngModel)]="contact.notes" formControlName="notes"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-md-6 column">
+
+                    <div class="form-group">
+                        <label for="">Phone Numbers</label>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div *ngIf="contact.phones.length > 0">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr *ngFor="let phone of contact.phones; index as i">
+                                                <td>({{ phone.type }})</td>
+                                                <td>{{ phone.number }}</td>
+                                                <td >
+                                                    <button (click)="removePhone(i)" class="btn btn-danger btn-sm pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div *ngIf="contact.phones.length === 0">
+                                    Not Set
+                                </div>
+                            </div>
+                            <div class="card-footer" [formGroup]="phoneNumbersForm">
+                                <div class="input-group" [class.has-danger]="!isValidPhone() && isPhoneFieldDirty()">
+                                    <div class="input-group-prepend select">
+                                        <select #pType class="form-control">
+                                            <option *ngFor="let phoneType of phoneTypes" [value]="phoneType.id">{{phoneType.name}}</option>
+                                        </select>
+                                        <div class="select__arrow"></div>
+                                    </div>
+                                    <input type="text" #pNumber formControlName="phoneNumber" maxlength="12" class="form-control" (keypress)="phoneNumberOnly($event)" (keyup.enter)="addNewPhone(pType, pNumber)" placeholder="Phone Number">
+                                    <div class="input-group-append">
+                                        <button (click)="addNewPhone(pType, pNumber)" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Email Addresses</label>
+                        <div class="card">
+                            <div class="card-body">
+                                <div *ngIf="contact.emails.length > 0">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr *ngFor="let email of contact.emails; index as ei">
+                                                <td>({{ email.type }})</td>
+                                                <td>{{ email.email }}</td>
+                                                <td >
+                                                    <button (click)="removeEmail(ei)" class="btn btn-danger btn-sm pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div *ngIf="contact.emails.length === 0">
+                                    Not Set
+                                </div>
+                            </div>
+                            <div class="card-footer" [formGroup]="emailFormGroup">
+                                <div class="input-group" [class.has-danger]="!isEmailValid() && isEmailFieldDirty()">
+                                    <div class="input-group-prepend select">
+                                        <select class="form-control" #eType>
+                                            <option *ngFor="let emailType of emailTypes" [value]="emailType.id">{{emailType.name}}</option>
+                                        </select>
+                                        <div class="select__arrow"></div>
+                                    </div>
+                                    <input type="text" #email class="form-control" formControlName="emailAddr" (keyup.enter)="addNewEmail(eType, email)" placeholder="Email Address">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary btn-flat" (click)="addNewEmail(eType, email)"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Addresses</label>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div *ngIf="contact.addresses.length > 0">
+                                    <table class="table table-sm address">
+                                        <tbody>
+                                            <tr *ngFor="let address of contact.addresses; index as ai">
+                                                <td style="width: 70%">
+                                                    <address>
+                                                        <strong>{{ address.type }}</strong><br>
+                                                        {{ address.address }}<br>
+                                                        {{ address.city }}, {{ address.state }} {{ address.zip }}
+                                                    </address>
+                                                </td>
+                                                <td style="vertical-align: top;">
+                                                    <button (click)="removeAddress(ai)" class="btn btn-danger btn-sm pull-right"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div *ngIf="contact.addresses.length === 0">
+                                    Not Set
+                                </div>
+
+                            </div>
+                            <div class="card-footer" [formGroup]="addressFormGroup" [class.has-danger]="!isAddressValid() && addressFormSubmitted">
+                                <div class="input-group">
+                                    <div class="input-group-prepend select">
+                                        <select class="form-control" [(ngModel)]="addressType" [ngModelOptions]="{standalone: true}">
+                                            <option *ngFor="let addressType of addressTypes" [value]="addressType.id">{{addressType.name}}</option>
+                                        </select>
+                                        <div class="select__arrow"></div>
+                                    </div>
+                                    <input type="text" [(ngModel)]="addr" formControlName="addr" class="form-control" placeholder="Address">
+                                </div>
+                                <div class="form-inline mt-2">
+                                    <div class="form-check mb-2 mr-sm-2">
+                                        <input type="text" style="width: 150px;" class="form-control" [(ngModel)]="city" formControlName="city" placeholder="City">
+                                    </div>
+
+                                    <div class="form-check mb-2 mr-sm-2 select">
+                                        <select class="form-control state-select"  [(ngModel)]="state" formControlName="state">
+                                            <option *ngFor="let st of states" [value]="st.value">{{st.name}}</option>
+                                        </select>
+                                        <div class="select__arrow"></div>
+                                    </div>
+
+                                    <div class="form-check mb-2 mr-sm-2">
+                                        <input type="text" class="form-control" maxlength="5" [(ngModel)]="zipCode" formControlName="zipCode" style="width: 100px;" placeholder="Zipcode">
+                                    </div>
+
+                                    <div class="form-check mb-2 mr-sm-2">
+                                        <button class="btn btn-primary btn-flat" (click)="addNewAddress()"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <hr>
+                    <button class="btn btn-primary" (click)="save()" [disabled]="basicInfoFormGroup.invalid">Save</button>
+                    <button type="button" *ngIf="formType === 'Edit'" class="btn btn-dark" (click)="back()">Back</button>
+                    <button type="button" *ngIf="formType === 'Create New'" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+                    <button type="button" *ngIf="formType === 'Edit'" class="btn btn-danger pull-right" (click)="onDeleteContact()">Delete</button>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </ng-container>
+</ibox-panel>
+
+<ng-template #deleteContactModal let-close="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete Contact?</h4>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete this contact?
+    </div>
+    <div class="modal-footer clearfix">
+        <button type="button" class="btn btn-danger btn-sm" (click)="close()">Cancel</button>
+        <button type="button" (click)="deleteContact()" class="btn btn-success btn-sm">Submit</button>
+    </div>
+</ng-template>
+

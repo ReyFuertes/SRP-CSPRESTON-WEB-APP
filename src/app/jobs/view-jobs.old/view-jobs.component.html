@@ -1,0 +1,746 @@
+<app-job-documents *ngIf="listOfDocuments" [job]="job"></app-job-documents>
+<!-- <app-job-details *ngIf="listOfDetails" [job]="job"></app-job-details> -->
+
+<div class="jobs-box-holder" *ngIf="listOfJobs">
+
+<ibox-panel [breadcrumbs]="breadcrumbs">
+  <ng-container class="heading">
+    <div *ngIf="!editJobSpace">List of Jobs</div>
+    <button (click)="addJob()" class="btn btn-success btn-add">Add Job</button>
+    <!-- <div *ngIf="editJobSpace">Edit Job</div> -->
+  </ng-container>
+  <ng-container class="body">
+    <div *ngIf="!editJobSpace">
+      <table class="table table-striped table-responsive ibox-table" *ngIf="jobs.length > 0">
+        <thead>
+          <tr>
+            <th>Job ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Customer</th>
+            <th>Type</th>
+            <th>Work</th>
+            <th>Property</th>
+            <th>Damage</th>
+            <th>Referral</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobs">
+            <td><a (click)="onEditJob(job.id)" class="link">{{job.job_number}}</a></td>
+            <td>{{job.name}}</td>
+            <td>{{job.address}} {{job.city}} {{job.state}} {{job.zip}}</td>
+            <td>{{ job.customer ? job.customer.name : '' }}</td>
+            <td>{{ job.type ? job.type.name : ''}}</td>
+            <td>{{ job.work_type ? job.work_type.name : ''}}</td>
+            <td>{{ job.property_type ? job.property_type.name : ''}}</td>
+            <td>{{ job.damage_type ? job.damage_type.name : ''}}</td>
+            <td>{{ job.referral_type ? job.referral_type.name : ''}}</td>
+            <td>
+              <p class="text-center bg-info">{{ job.status ? job.status.name : ''}}</p>
+            </td>
+            <td>
+              <button type="button" (click)="getDocuments(job)" class="btn btn-sm btn-primary get-docs"> <i class="fa fa-files-o"></i> Documents </button>
+              <button type="button" (click)="getJobDisplay(job)" class="btn btn-sm btn-primary job-display"> <i class="fa fa-info"></i> Job Display </button>
+              <button (click)="getFinancials(job.id)" class="btn btn-sm btn-primary job-display"> <i class="fa fa-money"></i> Financials </button>
+              <button type="button" (click)="editJob(job)" class="btn btn-sm btn-primary"> <i class="fa fa-save"></i> Edit Job </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="alert alert-info" *ngIf="!loading && jobs.length === 0">No jobs to show ... </p>
+      <p class="alert alert-info" *ngIf="loading">Loading jobs. Please wait ... </p>
+    </div>
+
+    <div *ngIf="editJobSpace" class="editJobView">
+      <div class="row">
+        <div class="col-12">
+          <div class="btn-group btn-group-justified btn-tabbing-group">
+            <div class="btn-group">
+              <button type="button" class="btn" [class.btn-primary]="isActiveStep(1)" (click)="goToStep(1)">
+                Customer Information
+              </button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn no-border-left-right" [class.btn-primary]="isActiveStep(2)" (click)="goToStep(2)">
+                Job Information
+              </button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn" [class.btn-primary]="isActiveStep(3)" (click)="goToStep(3)">
+                Contacts
+              </button>
+            </div>
+          </div>
+          <div [class.hidden]="!isActiveStep(1)">
+            <div class="row align-items-center mt-3 job-navigation">
+              <div class="col-2">
+                <button type="submit" class="btn btn-primary" (click)="getJobs()">Back</button>
+              </div>
+              <div class="col-8">
+                <h2 class="text-center mt-3">Customer Information Sheet</h2>
+
+              </div>
+              <div class="col-2 text-right">
+                <button type="button" class="btn btn-success" (click)="goToStep(2)">Continue</button>
+              </div>
+            </div>
+            <hr>
+            <div class="align-items-center mt-3 job-details">
+              <form [formGroup]="customerInformationSheet" class="col-md-12">
+                <div class="row">
+                  <div class="col-md-3">
+
+                      <div class="left-side-actions">
+
+                        <div class="row mb-2 mt-3 pl-3">
+                            <div class="col">
+                              <span><strong>Customer Type</strong></span>
+                            </div>
+                          </div>
+                          <div class="form-group pl-3">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                  <input class="form-check-input"
+                                          type="radio"
+                                          name="customerType"
+                                          value="Company"
+                                          [checked]="customerType == 'Company'"
+                                          (click)="setCustomerType($event.target.value)">
+                                  Company
+                                </label>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                  <input  class="form-check-input"
+                                          type="radio"
+                                          name="customerType"
+                                          value="Person"
+                                          [checked]="customerType == 'Person'"
+                                          (click)="setCustomerType($event.target.value)">
+                                  Person
+                                </label>
+                            </div>
+                          </div>
+
+                          <div class="row mb-2 mt-3 pl-3" style="margin-top: 40px !important;">
+                            <div class="col">
+                              <span><strong>Office</strong></span>
+                            </div>
+                          </div>
+                          <div class="form-group pl-3">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                  <input class="form-check-input"
+                                          type="radio"
+                                          name="office"
+                                          value="Memphis"
+                                          [checked]="office == 'Memphis'"
+                                          (click)="setOffice($event.target.value)">
+                                  Memphis
+                                </label>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                  <input  class="form-check-input"
+                                          type="radio"
+                                          name="office"
+                                          value="Nashville"
+                                          [checked]="office == 'Nashville'"
+                                          (click)="setOffice($event.target.value)">
+                                  Nashville
+                                </label>
+                            </div>
+                          </div>
+
+
+                          <div class="col-12" style="margin-top: 40px !important;">
+                            <div class="form-group">
+                              <div class="col">
+                                <label class="control success control--checkbox">Same Customer Info
+                                      <input type="checkbox" formControlName="customerInfoSameAsJobInfo"/>
+                                      <div class="control__indicator"></div>
+                                    </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col">
+                                <label class="control success control--checkbox">Same Bill To Info
+                                      <input type="checkbox" formControlName="billingInfoSameAsJobInfo"/>
+                                      <div class="control__indicator"></div>
+                                    </label>
+                              </div>
+                            </div>
+                          </div>
+
+                      </div>
+
+
+                  </div>
+                  <div class="col-md-9">
+                    <perfect-scrollbar [config]="{suppressScrollX:true}" [runInsideAngular]="true">
+                      <div class="form-group row">
+                        <label class="col-3 col-form-label">Customer: <span class="text-danger">*</span></label>
+                        <div class="col-9 select">
+                          <input type="text" class="form-control" id="jobName" placeholder="Job Name" formControlName="customer">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="jobName" class="col-3 col-form-label">Job Name: <span class="text-danger">*</span></label>
+                        <div class="col-9">
+                          <input type="text" class="form-control" id="jobName" placeholder="Job Name" formControlName="jobName">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="jobID" class="col-3 col-form-label">Job ID: <span class="text-danger">*</span></label>
+                        <div class="col-9">
+                          <input type="text" class="form-control" id="jobNumber" placeholder="Job ID" formControlName="jobNumber">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="jobAddress" class="col-3 col-form-label">Job Address: <span class="text-danger">*</span></label>
+                        <div class="col-9">
+                          <input type="text" class="form-control" id="jobAddress" placeholder="Address" formControlName="jobAddress">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-4 offset-3">
+                          <input type="text" class="form-control" id="jobAddressCity" placeholder="City" formControlName="jobCity">
+                        </div>
+                        <div class="input-group col-3 select">
+                          <select formControlName="jobState">
+                            <option *ngFor="let st of states" [value]="st.value">{{st.name}}</option>
+                          </select>
+                          <div class="select__arrow"></div>
+                        </div>
+                        <div class="col-2">
+                          <input type="text" class="form-control" id="jobAddressZipCode" placeholder="Zip Code" maxlength="5" formControlName="jobZipCode">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="jobPhone" class="col-3 col-form-label">Phone: </label>
+                        <div class="col-4">
+                          <input type="text" class="form-control" id="jobPhone" placeholder="Phone" formControlName="jobPhone">
+                        </div>
+                        <label for="jobFax" class="col-1 col-form-label">Fax:</label>
+                        <div class="col-4">
+                          <input type="text" class="form-control" id="jobFax" placeholder="Fax #" formControlName="jobFax">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="email" class="col-3 col-form-label">Email:</label>
+                        <div class="col-4">
+                          <input type="text" class="form-control" id="email" placeholder="Email" formControlName="jobEmail">
+                        </div>
+                      </div>
+
+                      <ng-container *ngIf="!customerInformationSheet.get('customerInfoSameAsJobInfo').value">
+                          <br /><hr />
+                          <div class="row mt-2 mb-2">
+                            <div class="col text-left">
+                              <span><strong>Customer Info</strong></span>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="form-group row">
+                            <label for="customerAddress" class="col-3 col-form-label">Customer Address:</label>
+                            <div class="col-4">
+                              <input type="text" class="form-control" id="customerAddress" formControlName="customerAddress">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-4 offset-3">
+                              <input type="text" class="form-control" id="customerCity" formControlName="customerCity">
+                            </div>
+                            <div class="input-group col-3 select">
+                              <select formControlName="customerState">
+                                <option *ngFor="let st of states" [value]="st.value">{{st.name}}</option>
+                              </select>
+                              <div class="select__arrow"></div>
+                            </div>
+                            <div class="col-2">
+                              <input type="text" class="form-control" id="customerZipCode" placeholder="Zip Code" maxlength="5" formControlName="customerZipCode">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="customerPhone" class="col-3 col-form-label">Phone: </label>
+                            <div class="col-4">
+                              <input type="text" class="form-control" id="customerPhone" formControlName="customerPhone">
+                            </div>
+                            <label for="customerFax" class="col-1 col-form-label">Fax:</label>
+                            <div class="col-4">
+                              <input type="text" class="form-control" id="customerFax" formControlName="customerFax">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="customerEmail" class="col-3 col-form-label">Email:</label>
+                            <div class="col-4">
+                              <input type="email" class="form-control" id="customerEmail" formControlName="customerEmail">
+                            </div>
+                          </div>
+                        </ng-container>
+
+                      <ng-container *ngIf="!customerInformationSheet.get('billingInfoSameAsJobInfo').value">
+                        <br /><hr />
+                        <div class="row mt-2 mb-2">
+                          <div class="col text-left">
+                            <span><strong>Billing Info</strong></span>
+                          </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                          <label for="billingAddress" class="col-3 col-form-label">Billing Address:</label>
+                          <div class="col-4">
+                            <input type="text" class="form-control" id="billingAddress" formControlName="billingAddress">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-4 offset-3">
+                            <input type="text" class="form-control" id="billingCity" formControlName="billingCity">
+                          </div>
+                          <div class="input-group col-3 select">
+                            <select formControlName="billingState">
+                              <option *ngFor="let st of states" [value]="st.value">{{st.name}}</option>
+                            </select>
+                            <div class="select__arrow"></div>
+                          </div>
+                          <div class="col-2">
+                            <input type="text" class="form-control" id="billingZipCode" placeholder="Zip Code" maxlength="5" formControlName="billingZipCode">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="billingPhone" class="col-3 col-form-label">Phone: </label>
+                          <div class="col-4">
+                            <input type="text" class="form-control" id="billingPhone" formControlName="billingPhone">
+                          </div>
+                          <label for="billingFax" class="col-1 col-form-label">Fax:</label>
+                          <div class="col-4">
+                            <input type="text" class="form-control" id="billingFax" formControlName="billingFax">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="billingEmail" class="col-3 col-form-label">Email:</label>
+                          <div class="col-4">
+                            <input type="email" class="form-control" id="billingEmail" formControlName="billingEmail">
+                          </div>
+                        </div>
+                      </ng-container>
+
+
+
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div [class.hidden]="!isActiveStep(2)">
+            <div class="row align-items-center mt-3 job-navigation">
+              <div class="col-2">
+                <button type="submit" class="btn btn-primary" (click)="goToStep(1)">Back</button>
+              </div>
+              <div class="col-8">
+                <h2 class="text-center mt-3">Job Information Sheet</h2>
+
+              </div>
+              <div class="col-2 text-right">
+                <button type="button" class="btn btn-success" (click)="goToStep(3)">Continue</button>
+              </div>
+            </div>
+            <hr>
+            <div class="row align-items-center mt-3 job-details">
+              <form [formGroup]="jobInformationSheet" class="col-md-12">
+                <div class="row mt-4">
+                  <div class="col-md-8">
+                    <div class="form-group row align-items-center">
+                      <label for="jobStatus" class="col-3 col-form-label">Job Status: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="jobStatus" formControlName="jobStatus">
+                            <option *ngFor="let status of statuses" [attr.value]="status.id"  [selected]="status.id === job.status.id" [selected]="status.id == job.status.id">{{status.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="jobType" class="col-3 col-form-label">Job Type: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="jobType" formControlName="jobType">
+                            <option *ngFor="let type of jobTypes" [attr.value]="type.value" [selected]="type.value == job.type.id">{{type.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addJobTypeModal.open()"><i
+                            class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="workTypes" class="col-3 col-form-label">Work Type: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="workType" formControlName="workType">
+                            <option *ngFor="let type of workTypes" [attr.value]="type.value" [selected]="type.value == job.work_type.id">{{type.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addWorkTypeModal.open()"><i
+                            class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="propertyTypes" class="col-3 col-form-label">Property Type: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="propertyType" formControlName="propertyType">
+                            <option *ngFor="let type of propertyTypes" [attr.value]="type.value" [selected]="type.value == job.property_type.id">{{type.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addPropertyTypeModal.open()">
+                            <i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="damageType" class="col-3 col-form-label">Damage Type: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="damageType" formControlName="damageType">
+                            <option *ngFor="let type of damageTypes" [attr.value]="type.value" [selected]="type.value == job.damage_type.id">{{type.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addDamageTypeModal.open()"><i
+                            class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="referralType" class="col-3 col-form-label">Referral Type: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="referralType" formControlName="referralType">
+                            <option *ngFor="let type of referralTypes" [attr.value]="type.value" [selected]="type.value == job.referral_type.id">{{type.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addReferralTypeModal.open()">
+                            <i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group row align-items-center">
+                      <label for="yearBuilt" class="col-5 col-form-label">Year Built: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="yearBuilt" formControlName="yearBuilt">
+                            <option *ngFor="let year of yearsBuilt" [value]="year.value">{{year.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="paymentTerm" class="col-5 col-form-label">Payment <br>Terms: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-5">
+                        <select id="paymentTerm" formControlName="paymentTerm">
+                            <option *ngFor="let term of paymentTerms" [value]="term.value" [selected]="term.value == job.payment_term.id">{{term.name}}</option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-primary btn-icon-icon btn-sm" (click)="addPaymentTermsModal.open()">
+                            <i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="claimNumber" class="col-5 col-form-label">Claim Number:</label>
+                      <div class="col-7">
+                        <input type="text" class="form-control" id="claimNumber" formControlName="claimNumber">
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="approxEstimate" class="col-5 col-form-label">Approximate Estimate: <span class="text-danger">*</span></label>
+                      <div class="col-7 input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text" class="form-control" placeholder="Approximate Estimate" id="approxEstimate" formControlName="approxEstimate">
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label for="jobProbability" class="col-5 col-form-label">Job <br>Probability: <span class="text-danger">*</span></label>
+                      <div class="input-group select col-7">
+                        <select id="jobProbability" formControlName="jobProbability">
+                            <option *ngFor="let probability of jobProbabilities" [value]="probability.value">
+                              {{probability.name}}
+                            </option>
+                          </select>
+                        <div class="select__arrow"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <add-damage-type-modal #addDamageTypeModal="addDamageTypeModal" (onModalSubmit)="damageTypeAdded($event)"></add-damage-type-modal>
+          <add-job-type-modal #addJobTypeModal="addJobTypeModal" (onModalSubmit)="jobTypeAdded($event)"></add-job-type-modal>
+          <add-payment-terms-modal #addPaymentTermsModal="addPaymentTermsModal" (onModalSubmit)="paymentTermsAdded($event)"></add-payment-terms-modal>
+          <add-property-type-modal #addPropertyTypeModal="addPropertyTypeModal" (onModalSubmit)="propertyTypeAdded($event)"></add-property-type-modal>
+          <add-referral-type-modal #addReferralTypeModal="addReferralTypeModal" (onModalSubmit)="referralTypeAdded($event)"></add-referral-type-modal>
+          <add-work-type-modal #addWorkTypeModal="addWorkTypeModal" (onModalSubmit)="workTypeAdded($event)"></add-work-type-modal>
+          <div [class.hidden]="!isActiveStep(3)">
+            <div class="row align-items-center mt-3 job-navigation">
+              <div class="col-2">
+                <button type="submit" class="btn btn-primary" (click)="goToStep(2)">Back</button>
+              </div>
+              <div class="col-8">
+                <h2 class="text-center mt-3">Contacts</h2>
+
+              </div>
+              <div class="col-2 text-right">
+                <button type="button" (click)="onSubmit()" class="btn btn-success">Finish</button>
+              </div>
+            </div>
+            <hr>
+            <perfect-scrollbar [config]="{suppressScrollX:true}" [runInsideAngular]="true" class="row">
+              <div class="col-12 step-last">
+                <p class="alert alert-info" *ngIf="message">{{message}}</p>
+                <form [formGroup]="contactsSheet" class="contactsheet-form">
+                  <div class="row">
+                    <div class="col-7 add-contact">
+                      <button class="btn btn-sm btn-primary pull-right" (click)="onAddingCustomer()"><i class="fa fa-plus"></i> Add contact</button>
+                    </div>
+                  </div>
+                  <div class="row customer-container" formArrayName="customers">
+                    <div class="col-md-12 contact-sheet-wrap">
+                      <div class="row align-items-center">
+                        <div class="col-md-12">
+                          <h5 class="text-center mt-3">Customers</h5>
+                          <hr>
+                        </div>
+                      </div>
+                      <section class="row" *ngIf="contactsSheet.controls.customers.length > 0; else noJobCustomer">
+                        <div class="col-md-3 mt-3" *ngFor="let customer of contactsSheet.controls.customers.controls; let i = index" [formGroupName]="i">
+                          <div class="contact-sheet-box">
+                            <div class="select">
+                              <select name="id" class="form-control" formControlName="id">
+                                  <option *ngFor="let c of customers" [value]="c.id">{{c.name}}</option>
+                                </select>
+                                <div class="select__arrow"></div>
+                            </div>
+                            <div>
+                              <table class="table col-12 table-contacts">
+                                <tbody>
+                                  <tr *ngIf="getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).phones">
+                                    <td class="col-2 mt-3">Phone</td>
+                                    <td class="col-10 mt-3">
+                                      <div *ngIf="getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).phones.length > 0">
+                                        <div *ngFor="let contact of getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).phones">{{contact.number}}</div>
+                                      </div>
+                                      <div *ngIf="getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).phones.length === 0">No phone</div>
+                                    </td>
+                                  </tr>
+                                  <tr *ngIf="getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).emails">
+                                    <td class="col-2 mt-3">Email</td>
+                                    <td class="col-10 mt-3">
+                                      <div *ngIf="getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).emails.length > 0">
+                                        <div *ngFor="let contact of getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).emails">{{contact.email}}</div>
+                                      </div>
+                                      <div *ngIf="getCustomerDetail(contactsSheet.get('customers').controls[i].controls.id.value).emails.length === 0">No email</div>
+                                    </td>
+                                  </tr>
+                                  <tr *ngIf="contactsSheet.get('customers').value[i].title">
+                                    <td class="col-2 mt-3">Sub Role</td>
+                                    <td class="col-10 mt-3">{{contactsSheet.get('customers').value[i].title}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="contact-sheet-box-remove-btn" *ngIf="i !== 0">
+                              <button type="button" class="btn btn-sm btn-danger pull-right" (click)="remove(i, 'customers')"><i class="fa fa-trash"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                      <ng-template #noJobCustomer>
+                        <p class="alert alert-warning">No customer to show at the moment ... </p>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="row employee-container" formArrayName="employees">
+                    <div class="col-md-12 contact-sheet-wrap">
+                      <div class="row align-items-center">
+                        <div class="col-md-12">
+                          <h5 class="text-center mt-3">Employees</h5>
+                          <hr>
+                        </div>
+                      </div>
+                      <section class="row" *ngIf="contactsSheet.controls.employees.length > 0; else noJobEmployee">
+                        <div class="col-md-3 mt-3" *ngFor="let employee of contactsSheet.controls.employees.controls; let i = index" [formGroupName]="i">
+                          <div class="contact-sheet-box">
+                            <div class="row align-items-center">
+                              <div class="col-md-12">
+                                <h5 class="text-center title-center mt-3 employee-role">{{contactsSheet.get('employees').value[i].title}}</h5>
+                                <hr>
+                              </div>
+                            </div>
+                            <div class="select">
+                              <select name="id" class="form-control" formControlName="id">
+                                  <option *ngFor="let e of employees" [value]="e.id">{{e.name}}</option>
+                                </select>
+                                <div class="select__arrow"></div>
+                            </div>
+                            <div class="align-items-center">
+                              <table class="table col-12 table-contacts">
+                                <tbody>
+                                  <tr *ngIf="getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).phones">
+                                    <td class="col-2 mt-3">Phone</td>
+                                    <td class="col-10 mt-3">
+                                      <div *ngIf="getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).phones.length > 0">
+                                        <div *ngFor="let contact of getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).phones">{{contact.number}}</div>
+                                      </div>
+                                      <div *ngIf="getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).phones.length === 0">No phone</div>
+                                    </td>
+                                  </tr>
+                                  <tr *ngIf="getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).emails">
+                                    <td class="col-2 mt-3">Email:</td>
+                                    <td class="col-10 mt-3">
+                                      <div *ngIf="getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).emails.length > 0">
+                                        <div *ngFor="let contact of getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).emails">{{contact.email}}</div>
+                                      </div>
+                                      <div *ngIf="getEmployeeDetail(contactsSheet.get('employees').controls[i].controls.id.value).emails.length === 0">No email</div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="contact-sheet-box-remove-btn">
+                              <button *ngIf="i > 3" type="button" class="btn btn-sm btn-danger pull-right" (click)="remove(i, 'employees')"><i class="fa fa-trash"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                      <ng-template #noJobEmployee>
+                        <p class="alert alert-warning">No employee to show at the moment ... </p>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="row subcontractor-container" formArrayName="subcontractors">
+                    <div class="col-md-12 contact-sheet-wrap">
+                      <div class="row align-items-center">
+                        <div class="col-md-12">
+                          <h5 class="text-center mt-3">Subcontractors</h5>
+                          <hr>
+                        </div>
+                      </div>
+                      <section class="row" *ngIf="contactsSheet.controls.subcontractors.length > 0; else noJobSubcon">
+                        <div class="col-md-3 mt-3" *ngFor="let subcon of contactsSheet.controls.subcontractors.controls; let i = index" [formGroupName]="i">
+                          <div class="contact-sheet-box">
+                            <div class="select">
+                              <select name="id" class="form-control" formControlName="id">
+                                  <option *ngFor="let sub of subcontractors" [value]="sub.id">{{sub.name}}</option>
+                                </select>
+                                <div class="select__arrow"></div>
+                            </div>
+                            <div class="align-items-center">
+                              <table class="table col-12 table-contacts">
+                                <tbody>
+                                  <tr *ngIf="getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).phones">
+                                    <td class="col-2 mt-3">Phone</td>
+                                    <td class="col-10 mt-3">
+                                      <div *ngIf="getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).phones.length > 0">
+                                        <div *ngFor="let contact of getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).phones">{{contact.number}}</div>
+                                      </div>
+                                      <div *ngIf="getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).phones.length === 0">No phone</div>
+                                    </td>
+                                  </tr>
+                                  <tr *ngIf="getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).emails">
+                                    <td class="col-2 mt-3">Email</td>
+                                    <td class="col-10 mt-3">
+                                      <div *ngIf="getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).emails.length > 0">
+                                        <div *ngFor="let contact of getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).emails">{{contact.email}}</div>
+                                      </div>
+                                      <div *ngIf="getSubcontractorDetail(contactsSheet.get('subcontractors').controls[i].controls.id.value).emails.length === 0">No email</div>
+                                    </td>
+                                  </tr>
+                                  <tr *ngIf="contactsSheet.get('subcontractors').value[i].title">
+                                    <td class="col-2 mt-3">Sub Role</td>
+                                    <td class="col-10 mt-3">{{contactsSheet.get('subcontractors').value[i].title}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="contact-sheet-box-remove-btn" *ngIf="i !== 0">
+                              <button type="button" class="btn btn-sm btn-danger pull-right" (click)="remove(i, 'subcontractors')"><i class="fa fa-trash"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                      <ng-template #noJobSubcon>
+                        <p class="alert alert-warning">No subcontractors to show at the moment ... </p>
+                      </ng-template>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </perfect-scrollbar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #addJobCustomerModal let-close="close">
+      <div class="modal-header">
+        <h5 class="title text-center">Add contact</h5>
+      </div>
+      <div class="modal-body">
+        <p class="alert alert-danger" *ngIf="addContactError.length > 0">{{addContactError}}</p>
+        <p class="alert alert-info" *ngIf="added">{{added}}</p>
+        <form novalidate class="form-horizontal">
+          <div class="form-group">
+            <label>Contact Type</label>
+            <select name="type" class="form-control select" (change)="onSelectingContactType($event.target.value)">
+                <option *ngFor="let type of contactTypes" [value]="type.name">{{type.name}}</option>
+              </select>
+          </div>
+          <div class="form-group" *ngIf="selectedCustomerType === 'employees'">
+            <label>Subrole</label>
+            <select class="form-control select" name="subroles" (change)="onSelectingEmployeeRole($event.target.value)">
+                <option *ngFor="let er of employeeRoles" [value]="er.id">{{er.role}}</option>
+              </select>
+          </div>
+          <div class="form-group" *ngIf="selectedCustomerType === 'customers' || selectedCustomerType === 'subcontractors'">
+            <label>Customer Type</label>
+            <select class="form-control select" name="contacts" (change)="setCustomerType($event.target.value)">
+                <option value="Person" selected="selected">Person</option>
+                <option value="Company">Company</option>
+              </select>
+          </div>
+
+          <div class="form-group" *ngIf="selectedCustomerType === 'customers' || selectedCustomerType === 'subcontractors'">
+            <label>Sub Role</label>
+            <select class="form-control select" name="subroles" (change)="onSelectingContactRole($event.target.value)">
+                <option *ngFor="let cr of contactRoles" [value]="cr.id">{{cr.role}}</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+            <label>Contact</label>
+            <select class="form-control select" name="contacts" (change)="onSelectingContact($event.target.value)">
+                <option *ngFor="let contact of contactsTypeList" [value]="contact.id">{{contact.name}}</option>
+              </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-group">
+          <button type="button" class="btn btn-danger btn-sm" (click)="modalRef.close()">Close</button>
+          <button type="submit" class="btn btn-sm btn-success" (click)="addContact()"><i class="fa fa-plus"></i> Add</button>
+        </div>
+      </div>
+    </ng-template>
+
+
+  </ng-container>
+</ibox-panel>
+
+
+</div>

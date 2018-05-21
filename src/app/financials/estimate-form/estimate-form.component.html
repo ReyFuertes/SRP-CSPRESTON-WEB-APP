@@ -1,0 +1,264 @@
+<ibox-panel [breadcrumbs]="breadcrumbs" *ngIf="job">
+
+    <ng-container class="heading">
+        {{ title }}
+    </ng-container>
+
+    <ng-container class="heading-aside">
+      <div class="text-right"><button class="btn btn-primary back" (click)="getJobFinancials()">Back</button></div>
+    </ng-container>
+
+    <ng-container class="body">
+      <div class="body-container">
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <br />
+          <form class="form-horizontal" [formGroup]="estimateForm" novalidate (submit)="onSubmit()">
+            <div class="form-inline">
+                <label for="job" class="col-4 col-form-label">Job</label>
+                <input type="text" class="form-control col-8" formControlName="job" [value]="job.name" readonly="" />
+            </div>
+            <div class="form-inline" [ngClass]="{'has-danger':!estimateForm.controls.name.valid && estimateForm.controls.name.touched}">
+                <label for="name" class="col-4 col-form-label">Name</label>
+                <input type="text" class="form-control col-8" formControlName="name" [(ngModel)]="estimate.name" (keyup)="onChangeName($event)" placeholder="Estimate Name"/>
+            </div>
+            <div class="form-inline estimate-inline">
+                <label for="estimateType" class="col-4 col-form-label">Estimate Type</label>
+                
+                <select2 class="col-8" *ngIf="estimateTypes.length && !estimate.id" [options]="estimateTypes" formControlName="estimateType" (onSelect)="onSelectingEstimateType($event)"></select2>
+
+                <input *ngIf="estimate.id" type="text" class="form-control col-8" formControlName="estimateType" [value]="estimate.type == 'FIXED_BID' ? 'Fixed Bid' : 'Time and Materials'" readonly=""/>
+            </div>
+
+            <section class="estimateTable" *ngIf="estimateType == 'FIXED_BID'; else tmForm">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 130px;">Type</th>
+                    <th style="width: 200px">Item</th>
+                    <th>Estimate</th>
+                    <th>Margin</th>
+                    <th>Budget</th>
+                    <th>Actual Cost</th>
+                    <th>Pending Cost</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input readonly type="text" class="form-control" name="estimateAmtTotal"  formControlName="estimateAmtTotal">
+
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                          <input readonly type="text" class="form-control" name="marginTotal" formControlName="marginTotal">
+                          <span class="input-group-addon">%</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input readonly type="text" class="form-control" name="budgetTotal" formControlName="budgetTotal">
+
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input readonly type="text" class="form-control" name="actualCostTotal"  formControlName="actualCostTotal">
+
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input readonly type="text" class="form-control" name="pendingCostTotal" formControlName="pendingCostTotal">
+
+                      </div>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+                <tbody formArrayName="itemRows">
+                  <tr *ngFor="let row of getItems.controls; let i = index" [formGroupName]="i">
+                    <td>
+                      <select2 *ngIf="costTypes.length" [settings]="{ placeholder: 'Select Type' }" [options]="costTypes" formControlName="costType"></select2>
+                    </td>
+                    <td>
+                      <select2 *ngIf="lineItems.length" [settings]="{ placeholder: 'Select Line Item' }" [options]="lineItems" formControlName="lineItem"></select2>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" class="form-control" name="estimateAmt" formControlName="estimateAmt" value="{{row.controls.estimateAmt.value}}" (keyup)="onEdit('estimate', i)">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input type="number" class="form-control" name="margin" formControlName="margin" (keyup)="onEdit('margin', i)">
+                        <span class="input-group-addon">%</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="number" class="form-control" name="budget" formControlName="budget" value="{{row.controls.budget.value}}" (keyup)="onEdit('budget', i)">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input readonly type="number" class="form-control" name="actualCost" formControlName="actualCost">
+
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input readonly type="number" class="form-control" name="pendingCost" formControlName="pendingCost">
+
+                      </div>
+                    </td>
+                    <td class="btn-group">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="onRemovingLineItem(i)" *ngIf="i !== 0"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr>
+              <div class="col-2 pull-left">
+                <button type="button" class="btn btn-primary btn-block" (click)="addLineItem()"><i class="fa fa-plus"></i> Add new line</button>
+              </div>
+            </section>
+            <ng-template #tmForm>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th style="width: 130px;">Type</th>
+                        <th style="width: 130px;">Item</th>
+                        <th>Actual Billable</th>
+                        <th>Running Billable</th>
+                        <th>Margin</th>
+                        <th>Budget</th>
+                        <th>Actual Cost</th>
+                        <th>Pending Cost</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly class="form-control" name="actualBillableTotal" formControlName="actualBillableTotal">
+                          </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                              <span class="input-group-addon">$</span>
+                              <input readonly class="form-control" name="runningBillableTotal" formControlName="runningBillableTotal">
+                            </div>
+                          </td>
+                        <td>
+                          <div class="input-group">
+                              <input readonly class="form-control" name="tmMarginTotal" formControlName="tmMarginTotal">
+                              <span class="input-group-addon">%</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly class="form-control" name="tmBudgetTotal" formControlName="tmBudgetTotal">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly class="form-control" name="actualCostTotal"  formControlName="actualCostTotal">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly class="form-control" name="pendingCostTotal"  formControlName="pendingCostTotal">
+
+                          </div>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                    <tbody formArrayName="itemRows">
+                      <tr *ngFor="let row of getItems.controls; let i = index" [formGroupName]="i" >
+                        <td>
+                         <select2 *ngIf="costTypes.length" [settings]="{ placeholder: 'Select Type' }" [options]="costTypes" formControlName="costType"></select2>
+                        </td>
+                        <td>
+                          <select2 *ngIf="lineItems.length" [settings]="{ placeholder: 'Select Line Item' }" [options]="lineItems" formControlName="lineItem"></select2>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly type="text" class="form-control" name="actualBillable" formControlName="actualBillable">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control" name="runningBillable" formControlName="runningBillable" (keyup)="onEdit('billable', i)">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <input type="text" class="form-control" name="tmMargin" formControlName="tmMargin" (keyup)="onEdit('tmMargin', i)">
+                            <span class="input-group-addon">%</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control" name="tmBudget" formControlName="tmBudget" (keyup)="onEdit('tmBudget', i)">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly type="text" class="form-control" name="actualCost" formControlName="actualCost">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input readonly type="text" class="form-control" name="pendingCost" formControlName="pendingCost">
+                          </div>
+                        </td>
+                        <td class="btn-group">
+                            <button type="button" class="btn btn-danger btn-sm" (click)="onRemovingLineItem(i)" *ngIf="i !== 0"><i class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <hr>
+                  <div class="col-2 pull-left">
+                    <button type="button" class="btn btn-primary btn-block" (click)="addLineItem()"><i class="fa fa-plus"></i> Add new line</button>
+                  </div>
+            </ng-template>
+
+            <div class="col-2 pull-right">
+              <button type="submit" class="btn btn-success btn-block" [disabled]="!estimateForm.valid"><i class="fa fa-save"></i> Save Estimate</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </ng-container>
+
+  </ibox-panel>

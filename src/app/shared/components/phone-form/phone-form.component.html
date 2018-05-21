@@ -1,0 +1,43 @@
+<div class="body-container">
+    <div class="card">
+        <div class="card-body">
+
+            <div *ngIf="phones.length > 0">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr *ngFor="let phone of phones; index as i">
+                            <td>({{ phone.type }})</td>
+                            <td>{{ phone.number }}</td>
+                            <td>
+                                <button (click)="removePhone(i)" class="btn btn-danger btn-sm pull-right">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="phones.length === 0">
+                Not Set
+            </div>
+        </div>
+        <div class="card-footer" [formGroup]="phoneNumbersForm">
+            <div class="input-group" [class.has-danger]="!isValidPhone() && isPhoneFieldDirty()">
+                <div class="input-group-prepend select">
+                    <select #pType class="form-control">
+                        <option *ngFor="let phoneType of phoneTypes" [value]="phoneType.id">{{phoneType.name}}</option>
+                    </select>
+                    <div class="select__arrow"></div>
+                </div>
+                <input id="phones" type="text" #pNumber formControlName="phoneNumber" maxlength="12" class="form-control" (keypress)="phoneNumberOnly($event)"
+                    (keyup.enter)="addNewPhone(pType, pNumber)" placeholder="Phone Number">
+                <div class="input-group-append">
+                    <button (click)="addNewPhone(pType, pNumber)" class="btn btn-primary btn-flat">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

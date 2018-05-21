@@ -1,0 +1,53 @@
+$modal-content-border-radius : 15px;
+$modal-border-radius : 12px;
+
+.modal {
+  .modal-content {
+    border-radius : $modal-content-border-radius;
+    .modal-header {
+      //background              : $brand-primary;
+      background              : #2f678c;
+      background              : -moz-linear-gradient(top, #2f678c 0%, #285b89 100%);
+      background              : -webkit-linear-gradient(top, #2f678c 0%, #285b89 100%);
+      background              : linear-gradient(to bottom, #2f678c 0%, #285b89 100%);
+      filter                  : progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f678c', endColorstr='#285b89', GradientType=0);
+      color                   : $white;
+      border-top-left-radius  : $modal-border-radius;
+      border-top-right-radius : $modal-border-radius;
+      padding                 : 5px 10px;
+      border                  : none;
+      text-align              : center;
+      vertical-align          : center;
+      display                 : flex;
+      justify-items           : center;
+      align-items             : center;
+      justify-content         : center;
+      align-content           : center;
+      .modal-title {
+        text-align : center;
+        h1, h2, h3, h4, h5, h6, p, span {
+          width      : 100%;
+          text-align : center;
+        }
+      }
+    }
+    .modal-body {
+    }
+    .modal-footer {
+      background                 : darken($brand-primary, 15%);
+      border-bottom-left-radius  : $modal-border-radius;
+      border-bottom-right-radius : $modal-border-radius;
+      padding                    : 10px 20px;
+      border                     : none;
+      button {
+        margin-left : 5px;
+        &:first-of-type {
+          margin-left : 0;
+        }
+        &:hover {
+          cursor : pointer;
+        }
+      }
+    }
+  }
+}
